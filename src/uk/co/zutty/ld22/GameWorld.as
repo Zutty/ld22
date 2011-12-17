@@ -43,7 +43,7 @@ package uk.co.zutty.ld22
             }
 
             // Draw baddies            
-            add(new Baddie(160, 120));
+            add(new Baddie(160, 180));
 
             // Draw the HUD over everything
             damageBar = new DamageBar(20, 220);

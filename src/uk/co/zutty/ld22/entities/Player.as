@@ -70,14 +70,14 @@ package uk.co.zutty.ld22.entities
         override public function update():void {
             super.update();
             
+            // Slowly heal self
+            _damage = FP.clamp(_damage - HEAL_RATE, 0, MAX_DAMAGE);
+
             // Take damage from baddies
             var damager:Damager = collide("damager", x, y) as Damager;
             if(damager) {
                 _damage = FP.clamp(_damage + damager.damage, 0, MAX_DAMAGE);
             }
-
-            // Slowly heal self
-            _damage = FP.clamp(_damage - HEAL_RATE, 0, MAX_DAMAGE);
             
             if(Input.check("jump") && !_jumped) {
                 velocity.y = -JUMP_IMPULSE;
