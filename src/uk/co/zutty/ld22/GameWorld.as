@@ -5,13 +5,15 @@ package uk.co.zutty.ld22
     
     import uk.co.zutty.ld22.entities.Baddie;
     import uk.co.zutty.ld22.entities.Player;
+    import uk.co.zutty.ld22.hud.DamageBar;
     import uk.co.zutty.ld22.levels.Level;
     import uk.co.zutty.ld22.levels.Level1;
     import uk.co.zutty.ld22.levels.OgmoLevel;
     
     public class GameWorld extends World {
         
-        private var player:Entity;
+        private var player:Player;
+        private var damageBar:DamageBar;
         
         public function GameWorld() {
             super();
@@ -27,10 +29,16 @@ package uk.co.zutty.ld22
             player.y = 120;
             add(player);
             
+            // Draw baddies            
             add(new Baddie(160, 120));
+
+            // Draw the HUD over everything
+            damageBar = new DamageBar(20, 220);
+            add(damageBar);
         }
         
         override public function update():void {
+            damageBar.value = player.damage / Player.MAX_DAMAGE;
             super.update();
         }
     }

@@ -469,7 +469,9 @@
 		 * Height of the text within the image.
 		 */
 		public function get textHeight():uint { return _textHeight; }
-		
+
+        public function get field():TextField { return _field; }
+
 		// Text information.
 		/** @protected */ protected var _field:TextField = new TextField;
 		/** @protected */ protected var _width:uint;

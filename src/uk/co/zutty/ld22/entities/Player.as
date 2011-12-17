@@ -1,6 +1,7 @@
 package uk.co.zutty.ld22.entities
 {
     import net.flashpunk.Entity;
+    import net.flashpunk.FP;
     import net.flashpunk.Graphic;
     import net.flashpunk.Mask;
     import net.flashpunk.graphics.Image;
@@ -9,14 +10,16 @@ package uk.co.zutty.ld22.entities
     
     public class Player extends GravityEntity {
         
-        private const MOVE_SPEED:Number = 2;
-        private const JUMP_IMPULSE:Number = 6;
+        public static const MAX_DAMAGE:Number = 100;
+        public static const MOVE_SPEED:Number = 2;
+        public static const JUMP_IMPULSE:Number = 6;
         
         [Embed(source = 'assets/guy.png')]
         private const GUY_IMAGE:Class;
         
         private var _img:Image;
-        private var jumped:Boolean;
+        private var _jumped:Boolean;
+        private var _damage:Number;
         
         public function Player() {
             super();
@@ -25,7 +28,8 @@ package uk.co.zutty.ld22.entities
             graphic = _img;
             setHitbox(16, 32, 8, 16);
             
-            jumped = false;
+            _jumped = false;
+            _damage = 0;
             
             Input.define("jump", Key.SPACE);
             Input.define("up", Key.W, Key.UP);
@@ -34,16 +38,25 @@ package uk.co.zutty.ld22.entities
             Input.define("right", Key.D, Key.RIGHT);
         }
         
+        public function get damage():Number {
+            return _damage;
+        }
+        
         override protected function onHitGround():void {
-            jumped = false;
+            _jumped = false;
         }
         
         override public function update():void {
             super.update();
             
-            if(Input.check("jump") && !jumped) {
+            var baddie:Entity = collide("baddie", x, y);
+            if(baddie) {
+                _damage = FP.clamp(_damage + 1, 0, MAX_DAMAGE);
+            }
+            
+            if(Input.check("jump") && !_jumped) {
                 velocity.y = -JUMP_IMPULSE;
-                jumped = true;
+                _jumped = true;
             }
 
             velocity.x = 0;

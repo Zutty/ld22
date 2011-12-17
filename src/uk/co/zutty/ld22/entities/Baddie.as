@@ -33,6 +33,9 @@ package uk.co.zutty.ld22.entities
             _move = false;
             _origin = new Point(x, y);
             _velocity = new Vector2D(0, 0);
+            
+            setHitbox(16, 16, 8, 8);
+            type = "baddie";
         }
 
         public function goTo(wx:Number, wy:Number):void {
