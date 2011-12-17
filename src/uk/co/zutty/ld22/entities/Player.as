@@ -1,4 +1,4 @@
-package uk.co.zutty.ld22
+package uk.co.zutty.ld22.entities
 {
     import net.flashpunk.Entity;
     import net.flashpunk.Graphic;
