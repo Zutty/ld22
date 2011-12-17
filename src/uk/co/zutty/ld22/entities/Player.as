@@ -75,7 +75,7 @@ package uk.co.zutty.ld22.entities
 
             // Take damage from baddies
             var damager:Damager = collide("damager", x, y) as Damager;
-            if(damager) {
+            if(damager && damager.active) {
                 _damage = FP.clamp(_damage + damager.damage, 0, MAX_DAMAGE);
             }
             
