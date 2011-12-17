@@ -12,7 +12,7 @@ package uk.co.zutty.ld22.entities
     
     public class Banality extends Damager {
         
-        public const SPEED:Number = 3;
+        public const SPEED:Number = 2.1;
         public const MARGIN:Number = 20;
         
         private var _txt:Text;
@@ -43,7 +43,7 @@ package uk.co.zutty.ld22.entities
             _txt.text = char;
             _txt.angle = _velocity.angle - 90;
             
-            if(_txt.angle < 0) {
+            if(_txt.angle < -90) {
                 _txt.angle -= 180;
             }
                 
