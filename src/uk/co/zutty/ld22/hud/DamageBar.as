@@ -21,7 +21,7 @@ package uk.co.zutty.ld22.hud
         private var _bar:Image;
         private var _gfx:Graphiclist;
         
-        public function DamageBar(x, y) {
+        public function DamageBar(x:Number, y:Number) {
             super(x, y);
             
             _gfx = new Graphiclist();
