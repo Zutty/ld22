@@ -1,0 +1,21 @@
+<project>
+	<name>LD20 Project</name>
+	<settings>  
+		<defaultWidth>320</defaultWidth>  
+		<defaultHeight>240</defaultHeight>  
+		<minWidth>320</minWidth>  
+		<minHeight>240</minHeight>  
+		<maxWidth>4800</maxWidth>  
+		<maxHeight>4800</maxHeight>  
+	</settings>
+	<values>
+		<string name="title" default="new level" maxChars="30" />  
+	</values> 
+	<layers>  
+		<tiles name="sky" gridSize="16"/>   
+		<tiles name="ground" gridSize="16"/>   
+	</layers>
+	<tilesets> 
+		<tileset name="happy" image="happy_tiles.png" tileWidth="16" tileHeight="16"/>
+	</tilesets>   
+</project>

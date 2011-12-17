@@ -20,7 +20,6 @@ package uk.co.zutty.ld22.entities
         private const BADDIE_IMAGE:Class;
         
         private var _img:Image;
-        
         private var _origin:Point;
         private var _waypoint:Point = new Point(0, 0);
         private var _move:Boolean;
