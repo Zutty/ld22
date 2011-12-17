@@ -28,9 +28,14 @@ package uk.co.zutty.ld22.entities
         override public function update():void {
             super.update();
          
+            var solid:Entity = collide("solid", x + _velocity.x, y);
+            if(solid) {
+                _velocity.x = 0;
+            }
+
             _velocity.y += G;
             
-            var solid:Entity = collide("solid", x + _velocity.x, y + _velocity.y);
+            solid = collide("solid", x, y + _velocity.y);
             if(solid) {
                 _velocity.y = 0;
                 onHitGround();

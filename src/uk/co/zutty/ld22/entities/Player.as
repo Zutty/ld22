@@ -9,7 +9,7 @@ package uk.co.zutty.ld22.entities
     
     public class Player extends GravityEntity {
         
-        private const MOVE_SPEED:Number = 3;
+        private const MOVE_SPEED:Number = 2;
         private const JUMP_IMPULSE:Number = 6;
         
         [Embed(source = 'assets/guy.png')]
