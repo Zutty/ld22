@@ -4,6 +4,7 @@ package uk.co.zutty.ld22
     import net.flashpunk.World;
     
     import uk.co.zutty.ld22.entities.Baddie;
+    import uk.co.zutty.ld22.entities.Bystander;
     import uk.co.zutty.ld22.entities.Player;
     import uk.co.zutty.ld22.hud.DamageBar;
     import uk.co.zutty.ld22.levels.Level;
@@ -29,6 +30,16 @@ package uk.co.zutty.ld22
             player.y = 120;
             add(player);
             
+            // Draw bystanders
+            var bystander:Bystander = new Bystander(200, 160);
+            bystander.target = player;
+            add(bystander);
+            
+            // Add all banalities
+            for each(var b:Entity in Main.banalities.entities) {
+                add(b);
+            }
+
             // Draw baddies            
             add(new Baddie(160, 120));
 

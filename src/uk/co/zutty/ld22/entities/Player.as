@@ -13,6 +13,7 @@ package uk.co.zutty.ld22.entities
         public static const MAX_DAMAGE:Number = 100;
         public static const MOVE_SPEED:Number = 2;
         public static const JUMP_IMPULSE:Number = 6;
+        public static const HEAL_RATE:Number = 0.02;
         
         [Embed(source = 'assets/guy.png')]
         private const GUY_IMAGE:Class;
@@ -49,10 +50,14 @@ package uk.co.zutty.ld22.entities
         override public function update():void {
             super.update();
             
-            var baddie:Entity = collide("baddie", x, y);
-            if(baddie) {
-                _damage = FP.clamp(_damage + 1, 0, MAX_DAMAGE);
+            // Take damage from baddies
+            var damager:Damager = collide("damager", x, y) as Damager;
+            if(damager) {
+                _damage = FP.clamp(_damage + damager.damage, 0, MAX_DAMAGE);
             }
+
+            // Slowly heal self
+            _damage = FP.clamp(_damage - HEAL_RATE, 0, MAX_DAMAGE);
             
             if(Input.check("jump") && !_jumped) {
                 velocity.y = -JUMP_IMPULSE;

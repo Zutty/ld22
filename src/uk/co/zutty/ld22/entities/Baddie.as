@@ -10,7 +10,7 @@ package uk.co.zutty.ld22.entities
     import uk.co.zutty.ld22.Main;
     import uk.co.zutty.ld22.Vector2D;
     
-    public class Baddie extends Entity {
+    public class Baddie extends Damager {
         
         private const MOVE_SPEED:Number = 2;
         private const DEVIATION:Number = 60;
@@ -35,7 +35,8 @@ package uk.co.zutty.ld22.entities
             _velocity = new Vector2D(0, 0);
             
             setHitbox(16, 16, 8, 8);
-            type = "baddie";
+            type = "damager";
+            damage = 1;
         }
 
         public function goTo(wx:Number, wy:Number):void {
