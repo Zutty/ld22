@@ -15,6 +15,8 @@ package uk.co.zutty.ld22
     
     public class GameWorld extends World {
         
+        public static const RESPAWN_TICKS:int = 80;
+        
         private var player:Player;
         private var failMsg:FullScreenMessage;
         private var damageBar:DamageBar;
@@ -66,7 +68,7 @@ package uk.co.zutty.ld22
         
         public function die(falling:Boolean):void {
             player.die();
-            respawnTick = 50;
+            respawnTick = RESPAWN_TICKS;
             failMsg.show(falling ? "You fell into\nthe unknown" : "You succumbed\nto doubt");
         }
         

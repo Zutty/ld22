@@ -32,7 +32,7 @@ package uk.co.zutty.ld22.entities
             
             setHitbox(8, 8, 4, 4);
             type = "damager";
-            damage = 0.1;
+            damage = 0.5;
             active = false;
             visible = false;
         }
