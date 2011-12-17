@@ -9,6 +9,7 @@ package uk.co.zutty.ld22
         public function Main() {
             super(320, 240, 60, false);
             FP.screen.scale = 2;
+            FP.world = new GameWorld();
         }
     }
 }
