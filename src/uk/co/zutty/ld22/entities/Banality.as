@@ -3,6 +3,7 @@ package uk.co.zutty.ld22.entities
     import flash.filters.GlowFilter;
     
     import net.flashpunk.Entity;
+    import net.flashpunk.FP;
     import net.flashpunk.Graphic;
     import net.flashpunk.Mask;
     import net.flashpunk.graphics.Text;
@@ -12,6 +13,7 @@ package uk.co.zutty.ld22.entities
     public class Banality extends Damager {
         
         public const SPEED:Number = 3;
+        public const MARGIN:Number = 20;
         
         private var _txt:Text;
         private var _velocity:Vector2D = new Vector2D(0, 0);
@@ -31,6 +33,8 @@ package uk.co.zutty.ld22.entities
             setHitbox(8, 8, 4, 4);
             type = "damager";
             damage = 0.1;
+            active = false;
+            visible = false;
         }
         
         public function fire(char:String, x:Number, y:Number, target:Entity):void {
@@ -45,12 +49,19 @@ package uk.co.zutty.ld22.entities
                 
             this.x = x;
             this.y = y;
+            active = true;
+            visible = true;
         }
         
         override public function update():void {
             super.update();
             x += _velocity.x;
             y += _velocity.y;
+            
+            if(x < FP.camera.x - MARGIN || x > FP.camera.x + FP.width + MARGIN || y < FP.camera.y - MARGIN || y > FP.camera.y + FP.height + MARGIN) {
+                active = false;
+                visible = false;
+            }
         }
     }
 }

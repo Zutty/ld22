@@ -20,12 +20,16 @@ package uk.co.zutty.ld22.hud
         
         private var _bar:Image;
         private var _gfx:Graphiclist;
+        private var _offsetX:Number;
+        private var _offsetY:Number;
         
         public function DamageBar(x:Number, y:Number) {
             super(x, y);
             
             _gfx = new Graphiclist();
             graphic = _gfx;
+            graphic.scrollX = 0;
+            graphic.scrollY = 0;
 
             // The text
             var txt:Text = new Text("Doubt");

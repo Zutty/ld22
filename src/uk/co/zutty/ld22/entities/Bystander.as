@@ -39,6 +39,8 @@ package uk.co.zutty.ld22.entities
         }
         
         override public function update():void {
+            super.update();
+            
             if(_target && targetInRange && _speakTick <= 0) {
                 _speakTick = 200;
                 _utterance = "Lovely weather";

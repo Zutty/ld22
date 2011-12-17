@@ -1,6 +1,7 @@
 package uk.co.zutty.ld22
 {
     import net.flashpunk.Entity;
+    import net.flashpunk.FP;
     import net.flashpunk.World;
     
     import uk.co.zutty.ld22.entities.Baddie;
@@ -31,7 +32,7 @@ package uk.co.zutty.ld22
             add(player);
             
             // Draw bystanders
-            var bystander:Bystander = new Bystander(200, 160);
+            var bystander:Bystander = new Bystander(200, 80);
             bystander.target = player;
             add(bystander);
             
@@ -50,6 +51,8 @@ package uk.co.zutty.ld22
         
         override public function update():void {
             damageBar.value = player.damage / Player.MAX_DAMAGE;
+            FP.camera.x = FP.clamp(player.x - 160, 0, 1200-320);
+            FP.camera.y = FP.clamp(player.y - 120, 0, 300-240);
             super.update();
         }
     }
