@@ -21,6 +21,7 @@ package uk.co.zutty.ld22.entities
         private var _img:Image;
         private var _jumped:Boolean;
         private var _damage:Number;
+        private var _dead:Boolean;
         
         public function Player() {
             super();
@@ -37,8 +38,27 @@ package uk.co.zutty.ld22.entities
             Input.define("down", Key.S, Key.DOWN);
             Input.define("left", Key.A, Key.LEFT);
             Input.define("right", Key.D, Key.RIGHT);
+            
+            die();
         }
         
+        public function spawn():void {
+            active = true;
+            visible = true;
+            _damage = 0;
+            _dead = false;
+        }
+        
+        public function die():void {
+            active = false;
+            visible = false;
+            _dead = true;
+        }
+        
+        public function get dead():Boolean {
+            return _dead;
+        }
+
         public function get damage():Number {
             return _damage;
         }
@@ -65,10 +85,10 @@ package uk.co.zutty.ld22.entities
             }
 
             velocity.x = 0;
-            if(Input.check("left")) {
+            if(Input.check("left") && x > 8) {
                 velocity.x = -MOVE_SPEED;
             }
-            if(Input.check("right")) {
+            if(Input.check("right") && x < 1192) {
                 velocity.x = MOVE_SPEED;
             }
         }
