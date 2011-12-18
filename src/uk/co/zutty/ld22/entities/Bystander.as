@@ -15,7 +15,6 @@ package uk.co.zutty.ld22.entities
         
         private var _img:Image;
         private var _jumped:Boolean;
-        private var _damage:Number;
         private var _speakTick:int;
         private var _fireTick:int;
         private var _target:Entity;

@@ -6,9 +6,12 @@ package uk.co.zutty.ld22.levels
         
         [Embed(source = 'assets/happy_tiles.png')]
         private const HAPPY_TILES_IMAGE:Class;
-        
+
+        [Embed(source = 'assets/sad_tiles.png')]
+        private const SAD_TILES_IMAGE:Class;
+
         public function Level1() {
-            super(LEVEL1_OEL, {sky: HAPPY_TILES_IMAGE, ground:HAPPY_TILES_IMAGE}, 16, 16);
+            super(LEVEL1_OEL, {sky: HAPPY_TILES_IMAGE, ground:HAPPY_TILES_IMAGE, sad_sky: SAD_TILES_IMAGE, sad_ground:SAD_TILES_IMAGE}, 16, 16);
         }
     }
 }

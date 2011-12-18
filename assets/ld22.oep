@@ -14,8 +14,11 @@
 	<layers>  
 		<tiles name="sky" gridSize="16"/>   
 		<tiles name="ground" gridSize="16"/>   
+		<tiles name="sad_sky" gridSize="16"/>   
+		<tiles name="sad_ground" gridSize="16"/>   
 	</layers>
 	<tilesets> 
 		<tileset name="happy" image="happy_tiles.png" tileWidth="16" tileHeight="16"/>
+		<tileset name="sad" image="sad_tiles.png" tileWidth="16" tileHeight="16"/>
 	</tilesets>   
 </project>

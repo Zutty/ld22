@@ -12,5 +12,9 @@ package uk.co.zutty.ld22
             return ((((( a & MASK1 ) * f1 ) + ( ( b & MASK1 ) * f2 )) >> 8 ) & MASK1 ) 
                  | ((((( a & MASK2 ) * f1 ) + ( ( b & MASK2 ) * f2 )) >> 8 ) & MASK2 );
         } 
+        /*
+        public static function tween(n:Number, ):Number {
+            
+        }*/
     }
 }

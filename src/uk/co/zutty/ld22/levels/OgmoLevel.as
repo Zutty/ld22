@@ -31,7 +31,7 @@ package uk.co.zutty.ld22.levels
             return data.height;
         }
         
-        public function getLayer(name:String, solid:Boolean = false):Entity {
+        public function getLayer(name:String, solid:Boolean = false):Layer {
             return loadLayer(name, true, solid);
         }
         
@@ -39,32 +39,28 @@ package uk.co.zutty.ld22.levels
             return loadLayer(name, false, true);
         }
         
-        private function loadLayer(name:String, showTiles:Boolean, solid:Boolean):Entity {
-            var layer:Entity = new Entity();
+        private function loadLayer(name:String, showTiles:Boolean, solid:Boolean):Layer {
+            var layer:Layer = new Layer();
             
             if(showTiles) {
-                var tilemap:Tilemap = new Tilemap(tileMaps[name] as Class, data.width, data.height, tileWidth, tileHeight);
+                layer.tilemap = new Tilemap(tileMaps[name] as Class, data.width, data.height, tileWidth, tileHeight);
             }
             if(solid) {
-                var grid:Grid = new Grid(data.width, data.height, tileWidth, tileHeight);
+                layer.grid = new Grid(data.width, data.height, tileWidth, tileHeight);
             }
             
             for each(var tile:XML in data[name][0].tile) {
                 if(showTiles) {
-                    var idx:uint = tilemap.getIndex(tile.@tx / tileWidth, tile.@ty / tileHeight);
-                    tilemap.setTile(tile.@x / tileWidth, tile.@y / tileHeight, idx);
+                    var idx:uint = layer.tilemap.getIndex(tile.@tx / tileWidth, tile.@ty / tileHeight);
+                    layer.tilemap.setTile(tile.@x / tileWidth, tile.@y / tileHeight, idx);
                 }
                 if(solid) {
-                    grid.setTile(tile.@x / tileWidth, tile.@y / tileHeight);
+                    layer.grid.setTile(tile.@x / tileWidth, tile.@y / tileHeight);
                 }
             }
             
-            if(showTiles) {
-                layer.graphic = tilemap;
-            }
             if(solid) {
                 layer.type = (showTiles) ? "solid" : name;
-                layer.mask = grid;
             }
             
             return layer;

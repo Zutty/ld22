@@ -10,7 +10,6 @@ package uk.co.zutty.ld22.entities
     
     public class Player extends GravityEntity {
         
-        public static const MAX_DAMAGE:Number = 100;
         public static const MOVE_SPEED:Number = 2;
         public static const JUMP_IMPULSE:Number = 6;
         public static const HEAL_RATE:Number = 0.02;
@@ -20,7 +19,6 @@ package uk.co.zutty.ld22.entities
         
         private var _img:Image;
         private var _jumped:Boolean;
-        private var _damage:Number;
         private var _dead:Boolean;
         
         public function Player() {
@@ -32,6 +30,7 @@ package uk.co.zutty.ld22.entities
             
             _jumped = false;
             _damage = 0;
+            _maxDamage = 100;
             
             Input.define("jump", Key.SPACE);
             Input.define("up", Key.W, Key.UP);
@@ -59,10 +58,6 @@ package uk.co.zutty.ld22.entities
             return _dead;
         }
 
-        public function get damage():Number {
-            return _damage;
-        }
-        
         override protected function onHitGround():void {
             _jumped = false;
         }
@@ -71,12 +66,12 @@ package uk.co.zutty.ld22.entities
             super.update();
             
             // Slowly heal self
-            _damage = FP.clamp(_damage - HEAL_RATE, 0, MAX_DAMAGE);
+            _damage = FP.clamp(_damage - HEAL_RATE, 0, _maxDamage);
 
             // Take damage from baddies
             var damager:Damager = collide("damager", x, y) as Damager;
             if(damager && damager.active) {
-                _damage = FP.clamp(_damage + damager.damage, 0, MAX_DAMAGE);
+                _damage = FP.clamp(_damage + damager.damage, 0, _maxDamage);
             }
             
             if(Input.check("jump") && !_jumped) {

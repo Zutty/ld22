@@ -5,7 +5,7 @@ package uk.co.zutty.ld22.levels
     public interface Level {
         function get width():Number;
         function get height():Number;
-        function getLayer(name:String, solid:Boolean = false):Entity;
+        function getLayer(name:String, solid:Boolean = false):Layer;
         function getMask(name:String):Entity;
     }
 }
