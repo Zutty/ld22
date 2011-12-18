@@ -12,10 +12,12 @@ package uk.co.zutty.ld22.entities
     
     public class PowerWord extends Damager {
         
+        public const LIFESPAN:Number = 120;
         public const SPEED:Number = 1.5;
         public const MARGIN:Number = 20;
         
         protected var _txt:Text;
+        private var _tick:int;
         private var _velocity:Vector2D = new Vector2D(0, 0);
         
         public function PowerWord(textColour:uint, glowColour:uint) {
@@ -30,27 +32,27 @@ package uk.co.zutty.ld22.entities
             _txt.x = -4;
             _txt.y = -4;
             graphic = _txt;
+            _tick = 0;
             
             setHitbox(8, 8, 4, 4);
-            damage = 2.5;
+            damage = 2;
             active = false;
             visible = false;
         }
         
         public function fire(char:String, x:Number, y:Number, initV:Vector2D, angle:Number):void {
             _velocity.setPolar(angle, SPEED);
-            _velocity.add(initV);
-            doFire(char, x, y);
+            doFire(char, x, y, initV);
         }
 
         public function fireAt(char:String, x:Number, y:Number, initV:Vector2D, target:Entity):void {
             _velocity.setCartesian(x, y, target.x, target.y);
             _velocity.magnitude = SPEED;
-            _velocity.add(initV);
-            doFire(char, x, y);
+            doFire(char, x, y, initV);
         }
             
-        private function doFire(char:String, x:Number, y:Number):void {
+        private function doFire(char:String, x:Number, y:Number, initV:Vector2D):void {
+            _velocity.x += initV.x;
             _txt.text = char;
             _txt.angle = _velocity.angle - 90;
             
@@ -63,6 +65,7 @@ package uk.co.zutty.ld22.entities
             active = true;
             visible = true;
             collidable = true;
+            _tick = LIFESPAN;
         }
         
         override public function update():void {
@@ -70,6 +73,12 @@ package uk.co.zutty.ld22.entities
             super.update();
             x += _velocity.x;
             y += _velocity.y;
+            
+            if(--_tick <= 0) {
+                active = false;
+                visible = false;
+                collidable = false;
+            }
             
             if(x < FP.camera.x - MARGIN || x > FP.camera.x + FP.width + MARGIN || y < FP.camera.y - MARGIN || y > FP.camera.y + FP.height + MARGIN) {
                 active = false;

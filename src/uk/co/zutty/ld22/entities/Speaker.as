@@ -23,6 +23,12 @@ package uk.co.zutty.ld22.entities
             _utterance = "";
         }
         
+        override public function spawn():void {
+            super.spawn();
+            _utterance = "";
+            _speakTick = _speakCooldown;
+        }
+        
         public function set speakCooldown(cd:int):void {
             _speakCooldown = cd;
         }

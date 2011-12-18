@@ -39,7 +39,7 @@ package uk.co.zutty.ld22.entities
             setHitbox(16, 32, 8, 16);
             speakCooldown = 200;
             _damage = 0;
-            _maxDamage = 10;
+            _maxDamage = 5;
             active = true;
             visible = true;
         }
@@ -71,7 +71,7 @@ package uk.co.zutty.ld22.entities
             super.update();
             
             var bullet:Entity = collide("bullet", x, y);
-            if(bullet) {
+            if(bullet && bullet.active) {
                 _damage += 1;
                 bullet.collidable = false;
             }

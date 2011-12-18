@@ -35,7 +35,7 @@ package uk.co.zutty.ld22.entities
         public static const HEAL_OVER_TIME:Number = 0.02;
         public static const HEAL_ONE_SHOT:Number = 15;
         public static const HEAL_MAX_CHARGES:Number = 5;
-        public static const FIRE_SELF_DAMAGE:Number = 2;
+        public static const FIRE_SELF_DAMAGE:Number = 1.5;
         public static const HEAL_COOLDOWN:int = 20;
         public static const FLASH_TICKS:int = 3;
         
@@ -132,6 +132,7 @@ package uk.co.zutty.ld22.entities
             _flash = 0;
             _healCharges = 3;
             _dead = false;
+            _lastDirection = true;
         }
         
         public function die():void {
@@ -219,7 +220,7 @@ package uk.co.zutty.ld22.entities
             }
             
             // Fire/speak
-            if(Input.check("fire") && canSpeak && velocity.y == 0) {
+            if(Input.check("fire") && canSpeak) {
                 _dreadSfx.play();
                 speak(randomQuote, _lastDirection);
             }
@@ -236,7 +237,7 @@ package uk.co.zutty.ld22.entities
             }
 
             // Jump/move
-            if(Input.check("jump") && !_jumped && !isSpeaking) {
+            if(Input.check("jump") && !_jumped) {
                 _jumpSfx.play();
                 velocity.y = -JUMP_IMPULSE;
                 _jumped = true;
