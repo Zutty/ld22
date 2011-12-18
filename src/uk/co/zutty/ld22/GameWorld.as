@@ -7,6 +7,7 @@ package uk.co.zutty.ld22
     import uk.co.zutty.ld22.entities.Baddie;
     import uk.co.zutty.ld22.entities.Bystander;
     import uk.co.zutty.ld22.entities.Player;
+    import uk.co.zutty.ld22.hud.CigarettesIndicator;
     import uk.co.zutty.ld22.hud.DamageBar;
     import uk.co.zutty.ld22.hud.FullScreenMessage;
     import uk.co.zutty.ld22.levels.Layer;
@@ -20,6 +21,7 @@ package uk.co.zutty.ld22
         
         private var player:Player;
         private var failMsg:FullScreenMessage;
+        private var fagsInd:CigarettesIndicator;
         private var damageBar:DamageBar;
         private var respawnTick:int;
         
@@ -66,13 +68,15 @@ package uk.co.zutty.ld22
             // Draw the HUD over everything
             damageBar = new DamageBar(20, 220);
             add(damageBar);
-            
+            fagsInd = new CigarettesIndicator(280, 220);
+            add(fagsInd);
             failMsg = new FullScreenMessage();
             add(failMsg);
 
             // Start
             balanceLayers();
             spawn();
+            fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
         }
         
         public function spawn():void {
@@ -125,6 +129,7 @@ package uk.co.zutty.ld22
             if(!player.dead && (player.y > 300 || player.damage >= player.maxDamage)) {
                 die(player.y > 300 ? "You fell into\nthe unknown" : "You succumbed\nto doubt");
             }
+            fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
             
             super.update();
         }
