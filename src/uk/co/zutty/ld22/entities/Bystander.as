@@ -2,6 +2,7 @@ package uk.co.zutty.ld22.entities
 {
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
+    import net.flashpunk.Sfx;
     import net.flashpunk.graphics.Image;
     
     import uk.co.zutty.ld22.Main;
@@ -21,12 +22,17 @@ package uk.co.zutty.ld22.entities
         [Embed(source = 'assets/bystander.png')]
         private const BYSTANDER_IMAGE:Class;
         
+        [Embed(source = 'assets/poof.mp3')]
+        private const POOF_SOUND:Class;
+
         private var _img:Image;
         private var _target:Entity;
         private var _jumped:Boolean;
+        private var _poofSfx:Sfx;
 
         public function Bystander(x:Number, y:Number) {
             super(x, y);
+            _poofSfx = new Sfx(POOF_SOUND);
             _img = new Image(BYSTANDER_IMAGE);
             _img.centerOrigin();
             graphic = _img;
@@ -53,6 +59,12 @@ package uk.co.zutty.ld22.entities
         public function die():void {
             active = false;
             visible = false;
+            _poofSfx.play();
+            if(FP.world is GameWorld) {
+                for(var i:int = 0; i < 4; i++) {
+                    Cloud(GameWorld(FP.world).clouds.next()).poof(x, y);
+                }
+            }
         }
         
         override public function update():void {

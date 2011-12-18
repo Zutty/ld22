@@ -16,6 +16,7 @@ package uk.co.zutty.ld22.worlds
     import uk.co.zutty.ld22.entities.Bleakness;
     import uk.co.zutty.ld22.entities.Bystander;
     import uk.co.zutty.ld22.entities.Cigarette;
+    import uk.co.zutty.ld22.entities.Cloud;
     import uk.co.zutty.ld22.entities.Manuscript;
     import uk.co.zutty.ld22.entities.Player;
     import uk.co.zutty.ld22.entities.Speaker;
@@ -41,6 +42,7 @@ package uk.co.zutty.ld22.worlds
 
         public const banalities:Supplier = new Supplier(64, function():Entity { return new Banality() });
         public const bleaknesses:Supplier = new Supplier(64, function():Entity { return new Bleakness() });
+        public const clouds:Supplier = new Supplier(16, function():Entity { return new Cloud() });
 
         private var player:Player;
         private var failMsg:FullScreenMessage;
@@ -68,6 +70,7 @@ package uk.co.zutty.ld22.worlds
             // Init suppliers
             banalities.init();
             bleaknesses.init();
+            clouds.init();
             
             // Init generic shite
             _lives = 3;
@@ -88,6 +91,9 @@ package uk.co.zutty.ld22.worlds
             }
             for each(var bl:Entity in bleaknesses.entities) {
                 add(bl);
+            }
+            for each(var c:Entity in clouds.entities) {
+                add(c);
             }
             
             // Draw the HUD over everything

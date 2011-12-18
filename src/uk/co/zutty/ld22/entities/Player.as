@@ -139,6 +139,11 @@ package uk.co.zutty.ld22.entities
             visible = false;
             _dead = true;
             _utterance = "";
+            if(FP.world is GameWorld) {
+                for(var i:int = 0; i < 4; i++) {
+                    Cloud(GameWorld(FP.world).clouds.next()).poof(x, y);
+                }
+            }
         }
         
         public function get dead():Boolean {
