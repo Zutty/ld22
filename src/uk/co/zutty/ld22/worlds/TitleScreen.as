@@ -46,6 +46,10 @@ package uk.co.zutty.ld22.worlds
         override public function update():void {
             super.update();
             
+            if(Input.pressed(Key.M)) {
+                _musicSfx.volume = 1 - _musicSfx.volume;
+            }
+
             if(Input.pressed(Key.X)) {
                 _musicSfx.stop();
                 Main.nextLevel(); 

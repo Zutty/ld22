@@ -1,11 +1,15 @@
 package uk.co.zutty.ld22.entities
 {
+    import flash.filters.GlowFilter;
+    
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
     import net.flashpunk.Graphic;
     import net.flashpunk.Mask;
     import net.flashpunk.Sfx;
+    import net.flashpunk.graphics.Graphiclist;
     import net.flashpunk.graphics.Image;
+    import net.flashpunk.graphics.Text;
     import net.flashpunk.utils.Input;
     import net.flashpunk.utils.Key;
     
@@ -53,6 +57,7 @@ package uk.co.zutty.ld22.entities
         [Embed(source = 'assets/hit.mp3')]
         private const HIT_SOUND:Class;
 
+        private var _gfx:Graphiclist;
         private var _img:Image;
         private var _jumped:Boolean;
         private var _dead:Boolean;
@@ -60,7 +65,7 @@ package uk.co.zutty.ld22.entities
         private var _healCharges:int;
         private var _flash:int;
         private var _lastDirection:Boolean;
-        private var _level:int;
+        private var _powerUp:Boolean;
         
         private var _pickupSfx:Sfx;
         private var _fagsSfx:Sfx;
@@ -70,11 +75,16 @@ package uk.co.zutty.ld22.entities
         private var _terrorSfx:Sfx;
         private var _hitSfxSuplier:SfxSupplier;
         
+        private var _message:Text;
+        private var _messageTick:int;
+        
         public function Player() {
             super(0, 0);
+            _gfx = new Graphiclist();
             _img = new Image(GUY_IMAGE);
             _img.centerOrigin();
-            graphic = _img;
+            _gfx.add(_img);
+            graphic = _gfx;
             setHitbox(12, 28, 6, 14);
             
             _fagsSfx = new Sfx(FAGS_SOUND);
@@ -88,7 +98,18 @@ package uk.co.zutty.ld22.entities
             
             _maxDamage = 100;
             speakCooldown = 120;
-            _level = 1;
+            _powerUp = false;
+            
+            // Set up message
+            _message = new Text("Woot!");
+            _message.centerOrigin();
+            _message.align = "center";
+            _message.y -= 20;
+            _message.color = 0xd6c756;
+            _message.field.filters = [new GlowFilter(0x000000, 1, 4, 4)];
+            _message.size = 8;
+            _message.alpha = 0.0;
+            _gfx.add(_message);
             
             Input.define("jump", Key.SPACE, Key.W, Key.UP);
             //Input.define("up", Key.W, Key.UP);
@@ -132,6 +153,17 @@ package uk.co.zutty.ld22.entities
             _jumped = false;
         }
         
+        public function get isPoweredUp():Boolean {
+            return _powerUp;
+        }
+        
+        public function set message(msg:String):void {
+            _message.text = msg;
+            _message.centerOrigin();
+            _message.visible = true;
+            _messageTick = 150;
+        }
+        
         override public function doFire(char:String):void {
             Bleakness(Main.bleaknesses.next()).fire(char, x, y, velocity, _lastDirection ? 0 : 180);
             _damage += FIRE_SELF_DAMAGE;
@@ -144,6 +176,13 @@ package uk.co.zutty.ld22.entities
         override public function update():void {
             super.update();
             
+            _message.alpha = 1.0;
+            if(_message.visible && _messageTick <= 0) {
+                _message.visible = false;
+            } else if(_messageTick > 0) {
+                _messageTick--;
+            }
+            
             // Slowly heal self
             _damage = FP.clamp(_damage - HEAL_OVER_TIME, 0, _maxDamage);
 
@@ -154,7 +193,7 @@ package uk.co.zutty.ld22.entities
                     _healCharges = Math.min(_healCharges + 1, HEAL_MAX_CHARGES);
                     _fagsSfx.play();
                 } else if(powerup is Manuscript) {
-                    _level++;
+                    _powerUp = true;
                     _pickupSfx.play();
                 }
                 FP.world.remove(powerup);
@@ -195,6 +234,7 @@ package uk.co.zutty.ld22.entities
                 _jumped = true;
             }
 
+            // Move left/right
             velocity.x = 0;
             if(Input.check("left") && x > 8) {
                 velocity.x = isSpeaking ? -MOVE_SPEED / 2 : -MOVE_SPEED;

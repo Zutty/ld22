@@ -6,6 +6,8 @@ package uk.co.zutty.ld22.worlds
     import net.flashpunk.FP;
     import net.flashpunk.Sfx;
     import net.flashpunk.World;
+    import net.flashpunk.utils.Input;
+    import net.flashpunk.utils.Key;
     
     import uk.co.zutty.ld22.Main;
     import uk.co.zutty.ld22.entities.Baddie;
@@ -197,6 +199,10 @@ package uk.co.zutty.ld22.worlds
         override public function update():void {
             balanceLayers();
             
+            if(Input.pressed(Key.M)) {
+                _musicSfx.volume = 1 - _musicSfx.volume;
+            }
+            
             if(_won && --_winTick <= 0) {
                 _musicSfx.stop();
                 Main.nextLevel();
@@ -223,7 +229,11 @@ package uk.co.zutty.ld22.worlds
             fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
             
             if(player.x > _level.width - 16 && !_won) {
-                win();
+                if(!player.isPoweredUp) {
+                    player.message = "Collect the manuscript";
+                } else {
+                    win();
+                }
             }
             
             super.update();
