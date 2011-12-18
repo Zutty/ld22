@@ -6,6 +6,7 @@ package uk.co.zutty.ld22
     import net.flashpunk.Engine;
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
+    import net.flashpunk.Sfx;
     import net.flashpunk.World;
     
     import uk.co.zutty.ld22.entities.Banality;
@@ -17,10 +18,12 @@ package uk.co.zutty.ld22
     
     public class Main extends Engine {
         
+        public static var mute:Boolean;
+        public static const vector:Vector2D = new Vector2D(0, 0);
+
         public static const NUM_LEVELS:int = 1;
         
         private static var titleScreen:TitleScreen;
-        public static var vector:Vector2D = new Vector2D(0, 0);
         
         private static var level:int = 0;
         
@@ -33,6 +36,14 @@ package uk.co.zutty.ld22
             Supplier.initAll();
             
             goToTitleScreen();
+        }
+        
+        public static function handleMute(music:Sfx):void {
+            music.volume = Main.mute ? 0 : 1;
+        }
+        
+        public static function toggleMute():void {
+            Main.mute = !Main.mute;
         }
         
         public static function goToTitleScreen():void {

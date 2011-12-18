@@ -33,7 +33,7 @@ package uk.co.zutty.ld22.entities
         public static const MOVE_SPEED:Number = 2;
         public static const JUMP_IMPULSE:Number = 6;
         public static const HEAL_OVER_TIME:Number = 0.02;
-        public static const HEAL_ONE_SHOT:Number = 15;
+        public static const HEAL_ONE_SHOT:Number = 30;
         public static const HEAL_MAX_CHARGES:Number = 5;
         public static const FIRE_SELF_DAMAGE:Number = 1.5;
         public static const HEAL_COOLDOWN:int = 20;
@@ -246,11 +246,11 @@ package uk.co.zutty.ld22.entities
             // Move left/right
             velocity.x = 0;
             if(Input.check("left") && x > 8) {
-                velocity.x = isSpeaking ? -MOVE_SPEED / 2 : -MOVE_SPEED;
+                velocity.x = -MOVE_SPEED;
                 _lastDirection = false;
             }
             if(Input.check("right") && x < (FP.world as GameWorld).level.width - 8) {
-                velocity.x = isSpeaking ? MOVE_SPEED / 2 : MOVE_SPEED;
+                velocity.x = MOVE_SPEED;
                 _lastDirection = true;
             }
             

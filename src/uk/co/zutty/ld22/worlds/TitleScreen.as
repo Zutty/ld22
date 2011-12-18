@@ -25,6 +25,7 @@ package uk.co.zutty.ld22.worlds
             
             _musicSfx = new Sfx(MUSIC1_SOUND);
             _musicSfx.loop();
+            Main.handleMute(_musicSfx);
             
             var f:Entity = new Entity();
             var img:Image = new Image(TITLE_IMAGE);
@@ -47,7 +48,8 @@ package uk.co.zutty.ld22.worlds
             super.update();
             
             if(Input.pressed(Key.M)) {
-                _musicSfx.volume = 1 - _musicSfx.volume;
+                Main.toggleMute();
+                Main.handleMute(_musicSfx);
             }
 
             if(Input.pressed(Key.X)) {

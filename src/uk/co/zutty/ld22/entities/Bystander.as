@@ -39,7 +39,7 @@ package uk.co.zutty.ld22.entities
             setHitbox(16, 32, 8, 16);
             speakCooldown = 200;
             _damage = 0;
-            _maxDamage = 5;
+            _maxDamage = 3;
             active = true;
             visible = true;
         }

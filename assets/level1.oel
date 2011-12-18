@@ -3365,6 +3365,7 @@
     <tile tx="0" ty="16" x="1040" y="80"/>
     <tile tx="0" ty="16" x="1056" y="64"/>
     <tile tx="16" ty="16" x="992" y="80"/>
+    <tile tx="16" ty="16" x="1072" y="160"/>
   </sad_ground>
   <objects>
     <cigarette x="656" y="208"/>
@@ -3373,9 +3374,9 @@
     <spawn x="32" y="224"/>
     <bystander x="192" y="224"/>
     <bystander x="448" y="176"/>
-    <bystander x="832" y="112"/>
-    <bystander x="1088" y="128"/>
-    <bystander x="960" y="240"/>
+    <bystander x="864" y="96"/>
+    <bystander x="1152" y="48"/>
+    <bystander x="1072" y="128"/>
   </objects>
   <baddies>
     <turmoil x="648" y="240"/>

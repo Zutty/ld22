@@ -83,6 +83,7 @@ package uk.co.zutty.ld22.worlds
             _crisisSfx = new Sfx(CRISIS_SOUND);
             _musicSfx = new Sfx(MUSIC2_SOUND);
             _musicSfx.loop();
+            Main.handleMute(_musicSfx);
             
             loadLevel(new Level1());
 
@@ -118,15 +119,15 @@ package uk.co.zutty.ld22.worlds
             // Add the sky and ground
             _level = lvl;
             happySky = _level.getLayer("sky");
-            happyGround = _level.getLayer("ground", true);
-            add(happySky);
-            add(happyGround);
-
             sadSky = _level.getLayer("sad_sky");
-            sadGround = _level.getLayer("sad_ground", true);
             sadSky.sad = true;
-            sadGround.sad = true;
+            add(happySky);
             add(sadSky);
+
+            happyGround = _level.getLayer("ground", true);
+            sadGround = _level.getLayer("sad_ground", true);
+            sadGround.sad = true;
+            add(happyGround);
             add(sadGround);
             
             // Add all powerups
@@ -197,12 +198,13 @@ package uk.co.zutty.ld22.worlds
         }
         
         public function balanceLayers():void {
-            var balance:Number = player.damagePct;
-            happySky.tilemap.alpha = 1 - tween(balance, 0.3, 0.7);
-            happyGround.tilemap.alpha = 1 - tween(balance, 0.3, 0.7);
+            var balance:Number = tween(player.damagePct, 0.3, 0.7);
             
-            sadSky.tilemap.alpha = tween(balance, 0.3, 0.7);
-            sadGround.tilemap.alpha = tween(balance, 0.3, 0.7);
+            happySky.tilemap.alpha = 1 - balance;
+            happyGround.tilemap.alpha = Math.max(1 - balance, 0.15);
+            
+            sadSky.tilemap.alpha = balance;
+            sadGround.tilemap.alpha = balance;
             
             // Set collidableness
             happyGround.collidable = player.damagePct < 0.65; 
@@ -222,7 +224,8 @@ package uk.co.zutty.ld22.worlds
             balanceLayers();
             
             if(Input.pressed(Key.M)) {
-                _musicSfx.volume = 1 - _musicSfx.volume;
+                Main.toggleMute();
+                Main.handleMute(_musicSfx);
             }
             
             if(_won && --_winTick <= 0) {

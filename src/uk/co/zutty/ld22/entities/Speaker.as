@@ -26,7 +26,7 @@ package uk.co.zutty.ld22.entities
         override public function spawn():void {
             super.spawn();
             _utterance = "";
-            _speakTick = _speakCooldown;
+            _speakTick = 10;
         }
         
         public function set speakCooldown(cd:int):void {
