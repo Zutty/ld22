@@ -14,7 +14,7 @@ package uk.co.zutty.ld22.entities
         
         private var _speakTick:int;
         private var _fireTick:int;
-        private var _utterance:String;
+        protected var _utterance:String;
         private var _speakCooldown:int;
 
         public function Speaker(x:Number, y:Number) {

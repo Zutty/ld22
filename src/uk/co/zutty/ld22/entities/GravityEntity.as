@@ -31,6 +31,7 @@ package uk.co.zutty.ld22.entities
         public function spawn():void {
             _trapped = false;
             _trappedTick = 0;
+            _damage = 0;
         }
         
         public function get damagePct():Number {

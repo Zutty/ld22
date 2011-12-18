@@ -69,7 +69,6 @@ package uk.co.zutty.ld22.entities
             active = true;
             visible = true;
             _jumped = false;
-            _damage = 0;
             _healTick = 0;
             _flash = 0;
             _healCharges = 3;
@@ -80,6 +79,7 @@ package uk.co.zutty.ld22.entities
             active = false;
             visible = false;
             _dead = true;
+            _utterance = "";
         }
         
         public function get dead():Boolean {
