@@ -165,7 +165,7 @@ package uk.co.zutty.ld22.entities
         }
         
         override public function doFire(char:String):void {
-            Bleakness(Main.bleaknesses.next()).fire(char, x, y, velocity, _lastDirection ? 0 : 180);
+            Bleakness(GameWorld(FP.world).bleaknesses.next()).fire(char, x, y, velocity, _lastDirection ? 0 : 180);
             _damage += FIRE_SELF_DAMAGE;
         }
         

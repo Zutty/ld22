@@ -19,13 +19,8 @@ package uk.co.zutty.ld22
         
         public static const NUM_LEVELS:int = 1;
         
-        public static var vector:Vector2D = new Vector2D(0, 0);
-        
-        public static const banalities:Supplier = Supplier.newSupplier(64, function():Entity { return new Banality() });
-        public static const bleaknesses:Supplier = Supplier.newSupplier(64, function():Entity { return new Bleakness() });
-        
         private static var titleScreen:TitleScreen;
-        private static var gameWorld:GameWorld;
+        public static var vector:Vector2D = new Vector2D(0, 0);
         
         private static var level:int = 0;
         

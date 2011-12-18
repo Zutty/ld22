@@ -5,6 +5,7 @@ package uk.co.zutty.ld22.entities
     import net.flashpunk.graphics.Image;
     
     import uk.co.zutty.ld22.Main;
+    import uk.co.zutty.ld22.worlds.GameWorld;
 
     public class Bystander extends Speaker {
         
@@ -46,7 +47,7 @@ package uk.co.zutty.ld22.entities
         }
         
         override public function doFire(char:String):void {
-            Banality(Main.banalities.next()).fireAt(char, x, y, velocity, _target);            
+            Banality(GameWorld(FP.world).banalities.next()).fireAt(char, x, y, velocity, _target);            
         }
         
         public function die():void {

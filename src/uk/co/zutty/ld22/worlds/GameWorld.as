@@ -10,7 +10,10 @@ package uk.co.zutty.ld22.worlds
     import net.flashpunk.utils.Key;
     
     import uk.co.zutty.ld22.Main;
+    import uk.co.zutty.ld22.Supplier;
     import uk.co.zutty.ld22.entities.Baddie;
+    import uk.co.zutty.ld22.entities.Banality;
+    import uk.co.zutty.ld22.entities.Bleakness;
     import uk.co.zutty.ld22.entities.Bystander;
     import uk.co.zutty.ld22.entities.Cigarette;
     import uk.co.zutty.ld22.entities.Manuscript;
@@ -36,6 +39,9 @@ package uk.co.zutty.ld22.worlds
         [Embed(source = 'assets/music2.mp3')]
         private const MUSIC2_SOUND:Class;
 
+        public const banalities:Supplier = new Supplier(64, function():Entity { return new Banality() });
+        public const bleaknesses:Supplier = new Supplier(64, function():Entity { return new Bleakness() });
+
         private var player:Player;
         private var failMsg:FullScreenMessage;
         private var fagsInd:CigarettesIndicator;
@@ -59,6 +65,10 @@ package uk.co.zutty.ld22.worlds
         public function GameWorld() {
             super();
             
+            // Init suppliers
+            banalities.init();
+            bleaknesses.init();
+            
             // Init generic shite
             _lives = 3;
             _won = false;
@@ -73,10 +83,10 @@ package uk.co.zutty.ld22.worlds
             loadLevel(new Level1());
 
             // Add all power words (i.e. bullets)
-            for each(var b:Entity in Main.banalities.entities) {
+            for each(var b:Entity in banalities.entities) {
                 add(b);
             }
-            for each(var bl:Entity in Main.bleaknesses.entities) {
+            for each(var bl:Entity in bleaknesses.entities) {
                 add(bl);
             }
             
