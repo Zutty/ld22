@@ -10,6 +10,8 @@ package uk.co.zutty.ld22.entities
     
     public class Speaker extends GravityEntity {
         
+        public static const FIRE_COOLDOWN:int = 3;
+        
         private var _speakTick:int;
         private var _fireTick:int;
         private var _utterance:String;
@@ -39,6 +41,10 @@ package uk.co.zutty.ld22.entities
             return _speakTick <= 0;
         }
         
+        public function get isSpeaking():Boolean {
+            return _utterance.length > 0;
+        }
+        
         override public function update():void {
             super.update();
             
@@ -46,10 +52,10 @@ package uk.co.zutty.ld22.entities
                 _speakTick--;
             }
             
-            if(_utterance.length > 0 && _fireTick <= 0) {
+            if(isSpeaking && _fireTick <= 0) {
                 doFire(_utterance.charAt());
                 _utterance = _utterance.substr(1);
-                _fireTick = 3;
+                _fireTick = FIRE_COOLDOWN;
             } else {
                 _fireTick--;
             }

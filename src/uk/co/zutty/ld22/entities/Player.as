@@ -28,7 +28,6 @@ package uk.co.zutty.ld22.entities
         public static const HEAL_ONE_SHOT:Number = 15;
         public static const HEAL_MAX_CHARGES:Number = 5;
         public static const FIRE_SELF_DAMAGE:Number = 0.5;
-        public static const FIRE_COOLDOWN:int = 2;
         public static const HEAL_COOLDOWN:int = 20;
         public static const FLASH_TICKS:int = 3;
         
@@ -116,13 +115,8 @@ package uk.co.zutty.ld22.entities
                 _damage = FP.clamp(_damage + damager.damage, 0, _maxDamage);
             }
             
-            if(Input.check("jump") && !_jumped) {
-                velocity.y = -JUMP_IMPULSE;
-                _jumped = true;
-            }
-
             // Fire/speak
-            if(Input.check("fire") && canSpeak) {
+            if(Input.check("fire") && canSpeak && velocity.y == 0) {
                 speak(randomQuote, _lastDirection);
             }
             
@@ -133,13 +127,19 @@ package uk.co.zutty.ld22.entities
                 _healTick = HEAL_COOLDOWN; 
             }
 
+            // Jump/move
+            if(Input.check("jump") && !_jumped && !isSpeaking) {
+                velocity.y = -JUMP_IMPULSE;
+                _jumped = true;
+            }
+
             velocity.x = 0;
             if(Input.check("left") && x > 8) {
-                velocity.x = -MOVE_SPEED;
+                velocity.x = isSpeaking ? -MOVE_SPEED / 2 : -MOVE_SPEED;
                 _lastDirection = false;
             }
             if(Input.check("right") && x < 1192) {
-                velocity.x = MOVE_SPEED;
+                velocity.x = isSpeaking ? MOVE_SPEED / 2 : MOVE_SPEED;
                 _lastDirection = true;
             }
             
