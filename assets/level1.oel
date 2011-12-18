@@ -3369,5 +3369,12 @@
   <objects>
     <cigarette x="656" y="208"/>
     <manuscript x="976" y="144"/>
+    <cigarette x="368" y="208"/>
   </objects>
+  <baddies>
+    <turmoil x="648" y="240"/>
+    <turmoil x="960" y="120"/>
+    <turmoil x="216" y="192"/>
+    <turmoil x="816" y="216"/>
+  </baddies>
 </level>

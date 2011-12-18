@@ -79,8 +79,10 @@ package uk.co.zutty.ld22
                 add(bl);
             }
 
-            // Draw baddies            
-            add(new Baddie(160, 180));
+            // Draw baddies   
+            for each(p in level1.getObjectPositions("baddies", "turmoil")) {
+                add(new Baddie(p.x + 12, p.y + 12));
+            }
 
             // Draw the HUD over everything
             damageBar = new DamageBar(20, 220);
