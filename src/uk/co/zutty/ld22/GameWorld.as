@@ -129,6 +129,10 @@ package uk.co.zutty.ld22
             sadGround.collidable = player.damagePct > 0.35; 
         }
         
+        public function get sadAlpha():Number {
+            return tween(player.damagePct, 0.3, 0.7);
+        }
+        
         private function tween(n:Number, l:Number, u:Number):Number {
             var e:Number = u - l;
             return n < l ? 0 : n > u ? 1 : (n - l) / e;

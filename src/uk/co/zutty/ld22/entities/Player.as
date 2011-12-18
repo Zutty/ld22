@@ -50,7 +50,7 @@ package uk.co.zutty.ld22.entities
             setHitbox(12, 28, 6, 14);
             
             _maxDamage = 100;
-            speakCooldown = 50;
+            speakCooldown = 120;
             
             Input.define("jump", Key.SPACE, Key.W, Key.UP);
             //Input.define("up", Key.W, Key.UP);

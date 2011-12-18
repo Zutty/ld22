@@ -11,6 +11,7 @@ package uk.co.zutty.ld22.entities
     import net.flashpunk.graphics.Image;
     import net.flashpunk.graphics.Text;
     
+    import uk.co.zutty.ld22.GameWorld;
     import uk.co.zutty.ld22.Main;
     import uk.co.zutty.ld22.Vector2D;
     
@@ -48,6 +49,7 @@ package uk.co.zutty.ld22.entities
 
             _img = new Image(BADDIE_IMAGE);
             _img.centerOrigin();
+            _img.alpha = 0;
             _gfx.add(_img);
             
             _txt = new Text(FP.choose(WORDS));
@@ -57,7 +59,7 @@ package uk.co.zutty.ld22.entities
             _txt.y += _txt.textHeight/2;
             _txt.color = 0xFFCCCC;
             _txt.field.filters = [new GlowFilter(0xFF3333, 1, 4, 4)];
-            _txt.alpha = 0.8;
+            _txt.alpha = 0;
             _gfx.add(_txt);
             
             _move = false;
@@ -67,6 +69,7 @@ package uk.co.zutty.ld22.entities
             setHitbox(16, 16, 8, 8);
             type = "damager";
             damage = 1;
+            collidable = false;
         }
 
         public function goTo(wx:Number, wy:Number):void {
@@ -87,6 +90,13 @@ package uk.co.zutty.ld22.entities
         
         override public function update():void {
             super.update();
+            
+            if(FP.world is GameWorld) {
+                var a:Number = GameWorld(FP.world).sadAlpha;
+                collidable = a > 0.05;
+                _img.alpha = a;
+                _txt.alpha = a * 0.8;
+            }
             
             _img.angle++;
             
