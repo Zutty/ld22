@@ -10,6 +10,8 @@ package uk.co.zutty.ld22
     import uk.co.zutty.ld22.entities.Banality;
     import uk.co.zutty.ld22.entities.Bleakness;
     import uk.co.zutty.ld22.entities.PowerWord;
+    import uk.co.zutty.ld22.worlds.GameWorld;
+    import uk.co.zutty.ld22.worlds.TitleScreen;
     
     public class Main extends Engine {
         
@@ -17,6 +19,9 @@ package uk.co.zutty.ld22
         
         public static const banalities:Supplier = Supplier.newSupplier(64, function():Entity { return new Banality() });
         public static const bleaknesses:Supplier = Supplier.newSupplier(64, function():Entity { return new Bleakness() });
+        
+        private static var titleScreen:TitleScreen;
+        private static var gameWorld:GameWorld;
         
         public function Main() {
             super(320, 240, 60, false);
@@ -26,7 +31,17 @@ package uk.co.zutty.ld22
             
             Supplier.initAll();
             
-            FP.world = new GameWorld();
+            titleScreen = new TitleScreen();
+            gameWorld = new GameWorld();
+            useTitleScreen();
+        }
+        
+        public static function useTitleScreen():void {
+            FP.world = titleScreen;
+        }
+
+        public static function useGameWorld():void {
+            FP.world = gameWorld;
         }
     }
 }

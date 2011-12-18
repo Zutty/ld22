@@ -11,7 +11,7 @@ package uk.co.zutty.ld22.entities
     import net.flashpunk.graphics.Image;
     import net.flashpunk.graphics.Text;
     
-    import uk.co.zutty.ld22.GameWorld;
+    import uk.co.zutty.ld22.worlds.GameWorld;
     import uk.co.zutty.ld22.Main;
     import uk.co.zutty.ld22.Vector2D;
     

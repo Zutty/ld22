@@ -62,6 +62,7 @@ package uk.co.zutty.ld22.entities
             this.y = y;
             active = true;
             visible = true;
+            collidable = true;
         }
         
         override public function update():void {

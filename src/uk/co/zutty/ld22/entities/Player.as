@@ -4,11 +4,15 @@ package uk.co.zutty.ld22.entities
     import net.flashpunk.FP;
     import net.flashpunk.Graphic;
     import net.flashpunk.Mask;
+    import net.flashpunk.Sfx;
     import net.flashpunk.graphics.Image;
     import net.flashpunk.utils.Input;
     import net.flashpunk.utils.Key;
     
     import uk.co.zutty.ld22.Main;
+    import uk.co.zutty.ld22.SfxSupplier;
+    import uk.co.zutty.ld22.Supplier;
+    import uk.co.zutty.ld22.worlds.GameWorld;
     
     public class Player extends Speaker {
         
@@ -34,6 +38,21 @@ package uk.co.zutty.ld22.entities
         [Embed(source = 'assets/guy.png')]
         private const GUY_IMAGE:Class;
         
+        [Embed(source = 'assets/fags.mp3')]
+        private const FAGS_SOUND:Class;
+        [Embed(source = 'assets/pickup.mp3')]
+        private const PICKUP_SOUND:Class;
+        [Embed(source = 'assets/jump.mp3')]
+        private const JUMP_SOUND:Class;
+        [Embed(source = 'assets/drag.mp3')]
+        private const DRAG_SOUND:Class;
+        [Embed(source = 'assets/dread.mp3')]
+        private const DREAD_SOUND:Class;
+        [Embed(source = 'assets/terror.mp3')]
+        private const TERROR_SOUND:Class;
+        [Embed(source = 'assets/hit.mp3')]
+        private const HIT_SOUND:Class;
+
         private var _img:Image;
         private var _jumped:Boolean;
         private var _dead:Boolean;
@@ -41,6 +60,15 @@ package uk.co.zutty.ld22.entities
         private var _healCharges:int;
         private var _flash:int;
         private var _lastDirection:Boolean;
+        private var _level:int;
+        
+        private var _pickupSfx:Sfx;
+        private var _fagsSfx:Sfx;
+        private var _jumpSfx:Sfx;
+        private var _dragSfx:Sfx;
+        private var _dreadSfx:Sfx;
+        private var _terrorSfx:Sfx;
+        private var _hitSfxSuplier:SfxSupplier;
         
         public function Player() {
             super(0, 0);
@@ -49,8 +77,18 @@ package uk.co.zutty.ld22.entities
             graphic = _img;
             setHitbox(12, 28, 6, 14);
             
+            _fagsSfx = new Sfx(FAGS_SOUND);
+            _pickupSfx =  new Sfx(PICKUP_SOUND);
+            _jumpSfx = new Sfx(JUMP_SOUND);
+            _dragSfx = new Sfx(DRAG_SOUND);
+            _dreadSfx = new Sfx(DREAD_SOUND);
+            _terrorSfx = new Sfx(TERROR_SOUND);
+            _hitSfxSuplier = new SfxSupplier(8, HIT_SOUND);
+            _hitSfxSuplier.init();
+            
             _maxDamage = 100;
             speakCooldown = 120;
+            _level = 1;
             
             Input.define("jump", Key.SPACE, Key.W, Key.UP);
             //Input.define("up", Key.W, Key.UP);
@@ -109,14 +147,36 @@ package uk.co.zutty.ld22.entities
             // Slowly heal self
             _damage = FP.clamp(_damage - HEAL_OVER_TIME, 0, _maxDamage);
 
+            // Collect powerups
+            var powerup:Entity = collide("powerup", x, y);
+            if(powerup) {
+                if(powerup is Cigarette) {
+                    _healCharges = Math.min(_healCharges + 1, HEAL_MAX_CHARGES);
+                    _fagsSfx.play();
+                } else if(powerup is Manuscript) {
+                    _level++;
+                    _pickupSfx.play();
+                }
+                FP.world.remove(powerup);
+            }
+
             // Take damage from baddies
             var damager:Damager = collide("damager", x, y) as Damager;
             if(damager && damager.active) {
+                if(damager is Baddie && !_terrorSfx.playing) {
+                    _terrorSfx.play();
+                } else if(!damager is Baddie) {
+                    _hitSfxSuplier.next().play();
+                }
+                if(damager is PowerWord) {
+                    damager.collidable = false;
+                }
                 _damage = FP.clamp(_damage + damager.damage, 0, _maxDamage);
             }
             
             // Fire/speak
             if(Input.check("fire") && canSpeak && velocity.y == 0) {
+                _dreadSfx.play();
                 speak(randomQuote, _lastDirection);
             }
             
@@ -124,11 +184,13 @@ package uk.co.zutty.ld22.entities
             if(Input.check("heal") && _healTick <= 0 && _healCharges > 0) {
                 _damage -= HEAL_ONE_SHOT;
                 _healCharges--;
+                _dragSfx.play();
                 _healTick = HEAL_COOLDOWN; 
             }
 
             // Jump/move
             if(Input.check("jump") && !_jumped && !isSpeaking) {
+                _jumpSfx.play();
                 velocity.y = -JUMP_IMPULSE;
                 _jumped = true;
             }
@@ -138,7 +200,7 @@ package uk.co.zutty.ld22.entities
                 velocity.x = isSpeaking ? -MOVE_SPEED / 2 : -MOVE_SPEED;
                 _lastDirection = false;
             }
-            if(Input.check("right") && x < 1192) {
+            if(Input.check("right") && x < (FP.world as GameWorld).level.width - 8) {
                 velocity.x = isSpeaking ? MOVE_SPEED / 2 : MOVE_SPEED;
                 _lastDirection = true;
             }

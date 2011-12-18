@@ -1,11 +1,13 @@
-package uk.co.zutty.ld22
+package uk.co.zutty.ld22.worlds
 {
     import flash.geom.Point;
     
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
+    import net.flashpunk.Sfx;
     import net.flashpunk.World;
     
+    import uk.co.zutty.ld22.Main;
     import uk.co.zutty.ld22.entities.Baddie;
     import uk.co.zutty.ld22.entities.Bystander;
     import uk.co.zutty.ld22.entities.Cigarette;
@@ -24,29 +26,41 @@ package uk.co.zutty.ld22
         
         public static const RESPAWN_TICKS:int = 80;
         
+        [Embed(source = 'assets/crisis.mp3')]
+        private const CRISIS_SOUND:Class;
+        [Embed(source = 'assets/fall.mp3')]
+        private const FALL_SOUND:Class;
+
         private var player:Player;
         private var failMsg:FullScreenMessage;
         private var fagsInd:CigarettesIndicator;
         private var damageBar:DamageBar;
         private var respawnTick:int;
         
+        private var _level:Level;
         private var happySky:Layer;
         private var happyGround:Layer;
         private var sadSky:Layer;
         private var sadGround:Layer;
         
+        private var _fallSfx:Sfx;
+        private var _crisisSfx:Sfx;
+
         public function GameWorld() {
             super();
             
+            _fallSfx = new Sfx(FALL_SOUND);
+            _crisisSfx = new Sfx(CRISIS_SOUND);
+            
             // Add the sky and ground
-            var level1:Level = new Level1();
-            happySky = level1.getLayer("sky");
-            happyGround = level1.getLayer("ground", true);
+            _level = new Level1();
+            happySky = _level.getLayer("sky");
+            happyGround = _level.getLayer("ground", true);
             add(happySky);
             add(happyGround);
 
-            sadSky = level1.getLayer("sad_sky");
-            sadGround = level1.getLayer("sad_ground", true);
+            sadSky = _level.getLayer("sad_sky");
+            sadGround = _level.getLayer("sad_ground", true);
             sadSky.sad = true;
             sadGround.sad = true;
             add(sadSky);
@@ -54,10 +68,10 @@ package uk.co.zutty.ld22
             
             // Add all powerups
             var p:Point;
-            for each(p in level1.getObjectPositions("objects", "manuscript")) {
+            for each(p in _level.getObjectPositions("objects", "manuscript")) {
                 add(new Manuscript(p.x + 8, p.y + 8));
             }
-            for each(p in level1.getObjectPositions("objects", "cigarette")) {
+            for each(p in _level.getObjectPositions("objects", "cigarette")) {
                 add(new Cigarette(p.x + 8, p.y + 8));
             }
             
@@ -80,7 +94,7 @@ package uk.co.zutty.ld22
             }
 
             // Draw baddies   
-            for each(p in level1.getObjectPositions("baddies", "turmoil")) {
+            for each(p in _level.getObjectPositions("baddies", "turmoil")) {
                 add(new Baddie(p.x + 12, p.y + 12));
             }
 
@@ -98,6 +112,10 @@ package uk.co.zutty.ld22
             fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
         }
         
+        public function get level():Level {
+            return _level;
+        }
+        
         public function spawn():void {
             player.spawn();
             player.x = 160;
@@ -107,6 +125,7 @@ package uk.co.zutty.ld22
         }
         
         public function dieTrapped():void {
+            _crisisSfx.play();
             die("You fell victim\nto absurdity");
         }
         
@@ -114,6 +133,11 @@ package uk.co.zutty.ld22
             player.die();
             respawnTick = RESPAWN_TICKS;
             failMsg.show(msg);
+        }
+        
+        public function win():void {
+            failMsg.show("You done won");
+            player.active = false;
         }
         
         public function balanceLayers():void {
@@ -142,17 +166,23 @@ package uk.co.zutty.ld22
             balanceLayers();
             
             damageBar.value = player.damagePct;
-            FP.camera.x = FP.clamp(player.x - 160, 0, 1200-320);
-            FP.camera.y = FP.clamp(player.y - 120, 0, 300-240);
+            FP.camera.x = FP.clamp(player.x - 160, 0, _level.width-320-16); // Cut off one tile early
+            FP.camera.y = FP.clamp(player.y - 120, 0, _level.height-240);
             
             if(player.dead && --respawnTick <= 0) {
                 spawn();
             }
             
-            if(!player.dead && (player.y > 300 || player.damage >= player.maxDamage)) {
-                die(player.y > 300 ? "You fell into\nthe unknown" : "You succumbed\nto doubt");
+            var fell:Boolean = player.y > level.height;
+            if(!player.dead && (fell || player.damage >= player.maxDamage)) {
+                (fell ? _fallSfx : _crisisSfx).play();
+                die(fell ? "You fell into\nthe unknown" : "You succumbed\nto doubt");
             }
             fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
+            
+            if(player.x > _level.width - 16) {
+                win();
+            }
             
             super.update();
         }
