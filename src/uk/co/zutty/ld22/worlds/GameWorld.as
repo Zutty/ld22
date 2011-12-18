@@ -17,6 +17,7 @@ package uk.co.zutty.ld22.worlds
     import uk.co.zutty.ld22.hud.CigarettesIndicator;
     import uk.co.zutty.ld22.hud.DamageBar;
     import uk.co.zutty.ld22.hud.FullScreenMessage;
+    import uk.co.zutty.ld22.hud.LivesIndicator;
     import uk.co.zutty.ld22.levels.Layer;
     import uk.co.zutty.ld22.levels.Level;
     import uk.co.zutty.ld22.levels.Level1;
@@ -34,6 +35,7 @@ package uk.co.zutty.ld22.worlds
         private var player:Player;
         private var failMsg:FullScreenMessage;
         private var fagsInd:CigarettesIndicator;
+        private var livesInd:LivesIndicator;
         private var damageBar:DamageBar;
         private var respawnTick:int;
         
@@ -42,17 +44,44 @@ package uk.co.zutty.ld22.worlds
         private var happyGround:Layer;
         private var sadSky:Layer;
         private var sadGround:Layer;
+        private var _lives:int; 
         
         private var _fallSfx:Sfx;
         private var _crisisSfx:Sfx;
 
         public function GameWorld() {
             super();
+            
+            _lives = 3;
 
             _fallSfx = new Sfx(FALL_SOUND);
             _crisisSfx = new Sfx(CRISIS_SOUND);
             
             loadLevel(new Level1());
+
+            // Add all power words (i.e. bullets)
+            for each(var b:Entity in Main.banalities.entities) {
+                add(b);
+            }
+            for each(var bl:Entity in Main.bleaknesses.entities) {
+                add(bl);
+            }
+            
+            // Draw the HUD over everything
+            damageBar = new DamageBar(40, 225);
+            add(damageBar);
+            fagsInd = new CigarettesIndicator(280, 225);
+            add(fagsInd);
+            livesInd = new LivesIndicator(10, 225);
+            add(livesInd);
+            failMsg = new FullScreenMessage();
+            add(failMsg);
+
+            // Start
+            balanceLayers();
+            spawn();
+            fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
+            livesInd.setLives(_lives);
         }
         
         public function loadLevel(lvl:Level):void {    
@@ -89,31 +118,10 @@ package uk.co.zutty.ld22.worlds
             bystander.target = player;
             add(bystander);
             
-            // Add all banalities
-            for each(var b:Entity in Main.banalities.entities) {
-                add(b);
-            }
-            for each(var bl:Entity in Main.bleaknesses.entities) {
-                add(bl);
-            }
-
             // Draw baddies   
             for each(p in _level.getObjectPositions("baddies", "turmoil")) {
                 add(new Baddie(p.x + 12, p.y + 12));
             }
-
-            // Draw the HUD over everything
-            damageBar = new DamageBar(20, 220);
-            add(damageBar);
-            fagsInd = new CigarettesIndicator(280, 220);
-            add(fagsInd);
-            failMsg = new FullScreenMessage();
-            add(failMsg);
-
-            // Start
-            balanceLayers();
-            spawn();
-            fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
         }
         
         public function get level():Level {
@@ -136,7 +144,14 @@ package uk.co.zutty.ld22.worlds
         public function die(msg:String):void {
             player.die();
             respawnTick = RESPAWN_TICKS;
-            failMsg.show(msg);
+            _lives--;
+            livesInd.setLives(_lives);
+            
+            if(_lives <= 0) {
+                failMsg.show("GAME OVER");
+            } else {
+                failMsg.show(msg);
+            }
         }
         
         public function win():void {
@@ -174,7 +189,11 @@ package uk.co.zutty.ld22.worlds
             FP.camera.y = FP.clamp(player.y - 120, 0, _level.height-240);
             
             if(player.dead && --respawnTick <= 0) {
-                spawn();
+                if(_lives <= 0) {
+                    Main.goToTitleScreen();
+                } else {
+                    spawn();
+                }
             }
             
             var fell:Boolean = player.y > level.height;

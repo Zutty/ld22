@@ -26,7 +26,7 @@ package uk.co.zutty.ld22.worlds
             super.update();
             
             if(Input.pressed(Key.X)) {
-                Main.useGameWorld(); 
+                Main.nextLevel(); 
             }
         }    
     }

@@ -9,22 +9,22 @@ package uk.co.zutty.ld22.hud
     import net.flashpunk.graphics.Image;
     import net.flashpunk.graphics.Text;
     
-    public class CigarettesIndicator extends Entity {
+    public class LivesIndicator extends Entity {
         
-        [Embed(source = 'assets/cigarette_case.png')]
-        private const CIGARETTES_IMAGE:Class;
-
+        [Embed(source = 'assets/heart.png')]
+        private const HEART_IMAGE:Class;
+        
         private var _gfx:Graphiclist;
         private var _img:Image;
         private var _txt:Text;
         
-        public function CigarettesIndicator(x:Number, y:Number) {
+        public function LivesIndicator(x:Number, y:Number) {
             super(x, y);
             _gfx = new Graphiclist();
             _gfx.scrollX = 0;
             _gfx.scrollY = 0;
-            _img = new Image(CIGARETTES_IMAGE);
-            _img.x = 20;
+            _img = new Image(HEART_IMAGE);
+            _img.x = 10;
             _img.y = -5;
             _gfx.add(_img);
             _txt = new Text("");
@@ -35,8 +35,8 @@ package uk.co.zutty.ld22.hud
             graphic = _gfx;
         }
         
-        public function setCharges(current:int, total:int):void {
-            _txt.text = current+"/"+total;
+        public function setLives(l:int):void {
+            _txt.text = String(l);
         }
     }
 }

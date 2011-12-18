@@ -23,25 +23,28 @@ package uk.co.zutty.ld22
         private static var titleScreen:TitleScreen;
         private static var gameWorld:GameWorld;
         
+        private static var level:int = 0;
+        
         public function Main() {
             super(320, 240, 60, false);
             FP.screen.scale = 2;
             FP.screen.color = 0x000000;
-            FP.console.enable();
+            //FP.console.enable();
             
             Supplier.initAll();
             
             titleScreen = new TitleScreen();
-            gameWorld = new GameWorld();
-            useTitleScreen();
+            goToTitleScreen();
         }
         
-        public static function useTitleScreen():void {
+        public static function goToTitleScreen():void {
+            level = 0;
             FP.world = titleScreen;
         }
 
-        public static function useGameWorld():void {
-            FP.world = gameWorld;
+        public static function nextLevel():void {
+            level++;
+            FP.world = new GameWorld();
         }
     }
 }
