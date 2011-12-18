@@ -45,6 +45,8 @@ package uk.co.zutty.ld22.worlds
         private var sadSky:Layer;
         private var sadGround:Layer;
         private var _lives:int; 
+        private var _won:Boolean;
+        private var _winTick:int;
         
         private var _fallSfx:Sfx;
         private var _crisisSfx:Sfx;
@@ -52,8 +54,12 @@ package uk.co.zutty.ld22.worlds
         public function GameWorld() {
             super();
             
+            // Init generic shite
             _lives = 3;
+            _won = false;
+            _winTick = 0;
 
+            // Sfx
             _fallSfx = new Sfx(FALL_SOUND);
             _crisisSfx = new Sfx(CRISIS_SOUND);
             
@@ -72,7 +78,7 @@ package uk.co.zutty.ld22.worlds
             add(damageBar);
             fagsInd = new CigarettesIndicator(280, 225);
             add(fagsInd);
-            livesInd = new LivesIndicator(10, 225);
+            livesInd = new LivesIndicator(5, 225);
             add(livesInd);
             failMsg = new FullScreenMessage();
             add(failMsg);
@@ -157,6 +163,8 @@ package uk.co.zutty.ld22.worlds
         public function win():void {
             failMsg.show("You done won");
             player.active = false;
+            _won = true;
+            _winTick = 100;
         }
         
         public function balanceLayers():void {
@@ -184,6 +192,10 @@ package uk.co.zutty.ld22.worlds
         override public function update():void {
             balanceLayers();
             
+            if(_won && --_winTick <= 0) {
+                Main.nextLevel();
+            }
+            
             damageBar.value = player.damagePct;
             FP.camera.x = FP.clamp(player.x - 160, 0, _level.width-320-16); // Cut off one tile early
             FP.camera.y = FP.clamp(player.y - 120, 0, _level.height-240);
@@ -203,7 +215,7 @@ package uk.co.zutty.ld22.worlds
             }
             fagsInd.setCharges(player.healCharges, Player.HEAL_MAX_CHARGES);
             
-            if(player.x > _level.width - 16) {
+            if(player.x > _level.width - 16 && !_won) {
                 win();
             }
             

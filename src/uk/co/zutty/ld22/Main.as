@@ -6,14 +6,18 @@ package uk.co.zutty.ld22
     import net.flashpunk.Engine;
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
+    import net.flashpunk.World;
     
     import uk.co.zutty.ld22.entities.Banality;
     import uk.co.zutty.ld22.entities.Bleakness;
     import uk.co.zutty.ld22.entities.PowerWord;
     import uk.co.zutty.ld22.worlds.GameWorld;
     import uk.co.zutty.ld22.worlds.TitleScreen;
+    import uk.co.zutty.ld22.worlds.WinScreen;
     
     public class Main extends Engine {
+        
+        public static const NUM_LEVELS:int = 1;
         
         public static var vector:Vector2D = new Vector2D(0, 0);
         
@@ -33,18 +37,21 @@ package uk.co.zutty.ld22
             
             Supplier.initAll();
             
-            titleScreen = new TitleScreen();
             goToTitleScreen();
         }
         
         public static function goToTitleScreen():void {
             level = 0;
-            FP.world = titleScreen;
+            FP.world = new TitleScreen();
         }
 
         public static function nextLevel():void {
             level++;
-            FP.world = new GameWorld();
+            if(level > NUM_LEVELS) {
+                FP.world = new WinScreen();
+            } else {
+                FP.world = new GameWorld();
+            }
         }
     }
 }
