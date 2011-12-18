@@ -1,5 +1,6 @@
 package uk.co.zutty.ld22.levels
 {
+    import flash.geom.Point;
     import flash.utils.ByteArray;
     
     import net.flashpunk.Entity;
@@ -83,9 +84,12 @@ package uk.co.zutty.ld22.levels
             return ret;
         }*/
         
-        public function getObjectPosition(layerName:String, objName:String):Vector2D {
-            var obj:XML = data[layerName][0][objName][0];
-            return (obj) ? new Vector2D(obj.@x, obj.@y) : null;
+        public function getObjectPositions(layerName:String, objName:String):Vector.<Point> {
+            var ret:Vector.<Point> = new Vector.<Point>();
+            for each(var obj:XML in data[layerName][0][objName]) {
+                ret[ret.length] = new Point(obj.@x, obj.@y);
+            }
+            return ret;
         }
     }
 }

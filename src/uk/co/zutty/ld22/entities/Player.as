@@ -47,7 +47,7 @@ package uk.co.zutty.ld22.entities
             _img = new Image(GUY_IMAGE);
             _img.centerOrigin();
             graphic = _img;
-            setHitbox(16, 32, 8, 16);
+            setHitbox(12, 28, 6, 14);
             
             _maxDamage = 100;
             speakCooldown = 50;

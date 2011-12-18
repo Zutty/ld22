@@ -11,7 +11,7 @@ package uk.co.zutty.ld22.hud
     
     public class CigarettesIndicator extends Entity {
         
-        [Embed(source = 'assets/cigarettes_sml.png')]
+        [Embed(source = 'assets/cigarette_case.png')]
         private const CIGARETTES_IMAGE:Class;
 
         private var _gfx:Graphiclist;

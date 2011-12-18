@@ -22,7 +22,7 @@ package uk.co.zutty.ld22
             super(320, 240, 60, false);
             FP.screen.scale = 2;
             FP.screen.color = 0x000000;
-            //FP.console.enable();
+            FP.console.enable();
             
             Supplier.initAll();
             

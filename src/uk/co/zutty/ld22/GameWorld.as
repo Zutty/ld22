@@ -1,11 +1,15 @@
 package uk.co.zutty.ld22
 {
+    import flash.geom.Point;
+    
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
     import net.flashpunk.World;
     
     import uk.co.zutty.ld22.entities.Baddie;
     import uk.co.zutty.ld22.entities.Bystander;
+    import uk.co.zutty.ld22.entities.Cigarette;
+    import uk.co.zutty.ld22.entities.Manuscript;
     import uk.co.zutty.ld22.entities.Player;
     import uk.co.zutty.ld22.entities.Speaker;
     import uk.co.zutty.ld22.hud.CigarettesIndicator;
@@ -47,6 +51,15 @@ package uk.co.zutty.ld22
             sadGround.sad = true;
             add(sadSky);
             add(sadGround);
+            
+            // Add all powerups
+            var p:Point;
+            for each(p in level1.getObjectPositions("objects", "manuscript")) {
+                add(new Manuscript(p.x + 8, p.y + 8));
+            }
+            for each(p in level1.getObjectPositions("objects", "cigarette")) {
+                add(new Cigarette(p.x + 8, p.y + 8));
+            }
             
             // Add the player
             player = new Player();
