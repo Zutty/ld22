@@ -7,6 +7,7 @@ package uk.co.zutty.ld22
     import uk.co.zutty.ld22.entities.Baddie;
     import uk.co.zutty.ld22.entities.Bystander;
     import uk.co.zutty.ld22.entities.Player;
+    import uk.co.zutty.ld22.entities.Speaker;
     import uk.co.zutty.ld22.hud.CigarettesIndicator;
     import uk.co.zutty.ld22.hud.DamageBar;
     import uk.co.zutty.ld22.hud.FullScreenMessage;
@@ -60,6 +61,9 @@ package uk.co.zutty.ld22
             // Add all banalities
             for each(var b:Entity in Main.banalities.entities) {
                 add(b);
+            }
+            for each(var bl:Entity in Main.bleaknesses.entities) {
+                add(bl);
             }
 
             // Draw baddies            

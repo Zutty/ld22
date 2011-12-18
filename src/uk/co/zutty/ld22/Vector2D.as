@@ -18,6 +18,11 @@ package uk.co.zutty.ld22
             this.y = y;
         }
 
+        public function add(v:Vector2D):void {
+            x += v.x;
+            y += v.y;
+        }
+
         public function setp(p:Point):void {
             x = p.x;
             y = p.y;
