@@ -31,6 +31,8 @@ package uk.co.zutty.ld22.worlds
         private const CRISIS_SOUND:Class;
         [Embed(source = 'assets/fall.mp3')]
         private const FALL_SOUND:Class;
+        [Embed(source = 'assets/music2.mp3')]
+        private const MUSIC2_SOUND:Class;
 
         private var player:Player;
         private var failMsg:FullScreenMessage;
@@ -50,6 +52,7 @@ package uk.co.zutty.ld22.worlds
         
         private var _fallSfx:Sfx;
         private var _crisisSfx:Sfx;
+        private var _musicSfx:Sfx;
 
         public function GameWorld() {
             super();
@@ -62,6 +65,8 @@ package uk.co.zutty.ld22.worlds
             // Sfx
             _fallSfx = new Sfx(FALL_SOUND);
             _crisisSfx = new Sfx(CRISIS_SOUND);
+            _musicSfx = new Sfx(MUSIC2_SOUND);
+            _musicSfx.loop();
             
             loadLevel(new Level1());
 
@@ -193,6 +198,7 @@ package uk.co.zutty.ld22.worlds
             balanceLayers();
             
             if(_won && --_winTick <= 0) {
+                _musicSfx.stop();
                 Main.nextLevel();
             }
             
@@ -202,6 +208,7 @@ package uk.co.zutty.ld22.worlds
             
             if(player.dead && --respawnTick <= 0) {
                 if(_lives <= 0) {
+                    _musicSfx.stop();
                     Main.goToTitleScreen();
                 } else {
                     spawn();
