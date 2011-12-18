@@ -31,7 +31,7 @@ package uk.co.zutty.ld22.entities
         public static const HEAL_OVER_TIME:Number = 0.02;
         public static const HEAL_ONE_SHOT:Number = 15;
         public static const HEAL_MAX_CHARGES:Number = 5;
-        public static const FIRE_SELF_DAMAGE:Number = 0.5;
+        public static const FIRE_SELF_DAMAGE:Number = 2.5;
         public static const HEAL_COOLDOWN:int = 20;
         public static const FLASH_TICKS:int = 3;
         

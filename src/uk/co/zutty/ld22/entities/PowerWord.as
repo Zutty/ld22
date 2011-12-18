@@ -32,7 +32,7 @@ package uk.co.zutty.ld22.entities
             graphic = _txt;
             
             setHitbox(8, 8, 4, 4);
-            damage = 0.5;
+            damage = 2.5;
             active = false;
             visible = false;
         }

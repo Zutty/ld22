@@ -48,12 +48,16 @@ package uk.co.zutty.ld22.worlds
 
         public function GameWorld() {
             super();
-            
+
             _fallSfx = new Sfx(FALL_SOUND);
             _crisisSfx = new Sfx(CRISIS_SOUND);
             
+            loadLevel(new Level1());
+        }
+        
+        public function loadLevel(lvl:Level):void {    
             // Add the sky and ground
-            _level = new Level1();
+            _level = lvl;
             happySky = _level.getLayer("sky");
             happyGround = _level.getLayer("ground", true);
             add(happySky);
