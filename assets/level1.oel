@@ -3370,6 +3370,12 @@
     <cigarette x="656" y="208"/>
     <manuscript x="976" y="144"/>
     <cigarette x="368" y="208"/>
+    <spawn x="32" y="224"/>
+    <bystander x="192" y="224"/>
+    <bystander x="448" y="176"/>
+    <bystander x="832" y="112"/>
+    <bystander x="1088" y="128"/>
+    <bystander x="960" y="240"/>
   </objects>
   <baddies>
     <turmoil x="648" y="240"/>

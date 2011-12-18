@@ -73,6 +73,7 @@ package uk.co.zutty.ld22.entities
             var bullet:Entity = collide("bullet", x, y);
             if(bullet) {
                 _damage += 1;
+                bullet.collidable = false;
             }
             
             if(_damage >= maxDamage) {

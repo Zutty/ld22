@@ -45,6 +45,7 @@ package uk.co.zutty.ld22.worlds
         public const clouds:Supplier = new Supplier(16, function():Entity { return new Cloud() });
 
         private var player:Player;
+        private var _spawnPoint:Point;
         private var failMsg:FullScreenMessage;
         private var fagsInd:CigarettesIndicator;
         private var livesInd:LivesIndicator;
@@ -141,11 +142,16 @@ package uk.co.zutty.ld22.worlds
             player = new Player();
             player.onTrapped = dieTrapped;
             add(player);
+            for each(p in _level.getObjectPositions("objects", "spawn")) {
+                _spawnPoint = new Point(p.x + 8, p.y + 16);
+            }
             
             // Draw bystanders
-            var bystander:Bystander = new Bystander(200, 80);
-            bystander.target = player;
-            add(bystander);
+            for each(p in _level.getObjectPositions("objects", "bystander")) {
+                var bystander:Bystander = new Bystander(p.x + 8, p.y + 16);
+                bystander.target = player;
+                add(bystander);
+            }
             
             // Draw baddies   
             for each(p in _level.getObjectPositions("baddies", "turmoil")) {
@@ -159,8 +165,8 @@ package uk.co.zutty.ld22.worlds
         
         public function spawn():void {
             player.spawn();
-            player.x = 160;
-            player.y = 120;
+            player.x = _spawnPoint.x;
+            player.y = _spawnPoint.y;
             respawnTick = 0;
             failMsg.hide();
         }

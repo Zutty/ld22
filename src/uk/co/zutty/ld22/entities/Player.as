@@ -229,6 +229,9 @@ package uk.co.zutty.ld22.entities
                 _damage -= HEAL_ONE_SHOT;
                 _healCharges--;
                 _dragSfx.play();
+                if(FP.world is GameWorld) {
+                    Cloud(GameWorld(FP.world).clouds.next()).poof(x, y);
+                }
                 _healTick = HEAL_COOLDOWN; 
             }
 

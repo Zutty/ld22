@@ -26,10 +26,8 @@
 	<objects>
 		<object name="manuscript" image="manuscript.png" width="16" height="16" limit="1"/>
 		<object name="cigarette" image="cigarettes_sml.png" width="16" height="16"/>
-		<object name="turmoil" image="baddie.png" width="24" height="24">
-			<values>
-				<integer name="word"/>
-			</values>
-		</object>
+		<object name="turmoil" image="baddie.png" width="24" height="24"/>
+		<object name="spawn" image="guy.png" width="16" height="32" limit="1"/>
+		<object name="bystander" image="bystander.png" width="16" height="32"/>
 	</objects>
 </project>
