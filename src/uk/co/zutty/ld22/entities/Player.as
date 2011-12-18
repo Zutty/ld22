@@ -165,7 +165,7 @@ package uk.co.zutty.ld22.entities
             if(damager && damager.active) {
                 if(damager is Baddie && !_terrorSfx.playing) {
                     _terrorSfx.play();
-                } else if(!damager is Baddie) {
+                } else if(!(damager is Baddie)) {
                     _hitSfxSuplier.next().play();
                 }
                 if(damager is PowerWord) {
