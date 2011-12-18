@@ -47,6 +47,7 @@ package uk.co.zutty.ld22
             
             // Add the player
             player = new Player();
+            player.onTrapped = dieTrapped;
             add(player);
             
             // Draw bystanders
@@ -82,10 +83,14 @@ package uk.co.zutty.ld22
             failMsg.hide();
         }
         
-        public function die(falling:Boolean):void {
+        public function dieTrapped():void {
+            die("You fell victim\nto absurdity");
+        }
+        
+        public function die(msg:String):void {
             player.die();
             respawnTick = RESPAWN_TICKS;
-            failMsg.show(falling ? "You fell into\nthe unknown" : "You succumbed\nto doubt");
+            failMsg.show(msg);
         }
         
         public function balanceLayers():void {
@@ -97,8 +102,8 @@ package uk.co.zutty.ld22
             sadGround.tilemap.alpha = tween(balance, 0.3, 0.7);
             
             // Set collidableness
-            happyGround.collidable = player.damagePct < 0.7; 
-            sadGround.collidable = player.damagePct > 0.3; 
+            happyGround.collidable = player.damagePct < 0.65; 
+            sadGround.collidable = player.damagePct > 0.35; 
         }
         
         private function tween(n:Number, l:Number, u:Number):Number {
@@ -118,7 +123,7 @@ package uk.co.zutty.ld22
             }
             
             if(!player.dead && (player.y > 300 || player.damage >= player.maxDamage)) {
-                die(player.y > 300);
+                die(player.y > 300 ? "You fell into\nthe unknown" : "You succumbed\nto doubt");
             }
             
             super.update();
