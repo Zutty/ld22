@@ -55,8 +55,10 @@ package uk.co.zutty.ld22.worlds
         private var _level:Level;
         private var happySky:Layer;
         private var happyGround:Layer;
+        private var happyOverlay:Layer;
         private var sadSky:Layer;
         private var sadGround:Layer;
+        private var sadOverlay:Layer;
         private var _lives:int; 
         private var _won:Boolean;
         private var _winTick:int;
@@ -65,7 +67,7 @@ package uk.co.zutty.ld22.worlds
         private var _crisisSfx:Sfx;
         private var _musicSfx:Sfx;
 
-        public function GameWorld() {
+        public function GameWorld(l:int) {
             super();
             
             // Init suppliers
@@ -85,7 +87,11 @@ package uk.co.zutty.ld22.worlds
             _musicSfx.loop();
             Main.handleMute(_musicSfx);
             
-            loadLevel(new Level1());
+            var lev:Level;
+            if(l == 1) {
+                lev = new Level1();
+            }
+            loadLevel(lev);
 
             // Add all power words (i.e. bullets)
             for each(var b:Entity in banalities.entities) {
@@ -154,6 +160,12 @@ package uk.co.zutty.ld22.worlds
                 add(bystander);
             }
             
+            happyOverlay = _level.getLayer("overlay");
+            sadOverlay = _level.getLayer("sad_overlay");
+            sadOverlay.sad = true;
+            add(happyOverlay);
+            add(sadOverlay);
+
             // Draw baddies   
             for each(p in _level.getObjectPositions("baddies", "turmoil")) {
                 add(new Baddie(p.x + 12, p.y + 12));
@@ -201,10 +213,12 @@ package uk.co.zutty.ld22.worlds
             var balance:Number = tween(player.damagePct, 0.3, 0.7);
             
             happySky.tilemap.alpha = 1 - balance;
-            happyGround.tilemap.alpha = Math.max(1 - balance, 0.15);
+            happyGround.tilemap.alpha = Math.max(1 - balance, 0.1);
+            happyOverlay.tilemap.alpha = Math.max(1 - balance, 0.1);
             
             sadSky.tilemap.alpha = balance;
             sadGround.tilemap.alpha = balance;
+            sadOverlay.tilemap.alpha = balance;
             
             // Set collidableness
             happyGround.collidable = player.damagePct < 0.65; 

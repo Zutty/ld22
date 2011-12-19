@@ -14,8 +14,10 @@
 	<layers>  
 		<tiles name="sky" gridSize="16"/>   
 		<tiles name="ground" gridSize="16"/>   
+		<tiles name="overlay" gridSize="16"/>   
 		<tiles name="sad_sky" gridSize="16"/>   
 		<tiles name="sad_ground" gridSize="16"/>   
+		<tiles name="sad_overlay" gridSize="16"/>   
 		<objects name="objects" gridSize="16"/>   
 		<objects name="baddies" gridSize="24"/>   
 	</layers>

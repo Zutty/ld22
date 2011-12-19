@@ -4,6 +4,7 @@ package uk.co.zutty.ld22.entities
     import net.flashpunk.FP;
     import net.flashpunk.Sfx;
     import net.flashpunk.graphics.Image;
+    import net.flashpunk.graphics.Spritemap;
     
     import uk.co.zutty.ld22.Main;
     import uk.co.zutty.ld22.worlds.GameWorld;
@@ -25,7 +26,7 @@ package uk.co.zutty.ld22.entities
         [Embed(source = 'assets/poof.mp3')]
         private const POOF_SOUND:Class;
 
-        private var _img:Image;
+        private var _img:Spritemap;
         private var _target:Entity;
         private var _jumped:Boolean;
         private var _poofSfx:Sfx;
@@ -33,8 +34,11 @@ package uk.co.zutty.ld22.entities
         public function Bystander(x:Number, y:Number) {
             super(x, y);
             _poofSfx = new Sfx(POOF_SOUND);
-            _img = new Image(BYSTANDER_IMAGE);
+            _img = new Spritemap(BYSTANDER_IMAGE, 16, 32);
+            _img.add("right", [0], 20, true);
+            _img.add("left", [1], 20, true);
             _img.centerOrigin();
+            _img.play("left");
             graphic = _img;
             setHitbox(16, 32, 8, 16);
             speakCooldown = 200;
@@ -69,6 +73,10 @@ package uk.co.zutty.ld22.entities
         
         override public function update():void {
             super.update();
+            
+            if(_target) {
+                _img.play(_target.x < x ? "left" : "right");
+            }
             
             var bullet:Entity = collide("bullet", x, y);
             if(bullet && bullet.active) {

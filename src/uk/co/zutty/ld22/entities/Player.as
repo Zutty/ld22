@@ -9,6 +9,7 @@ package uk.co.zutty.ld22.entities
     import net.flashpunk.Sfx;
     import net.flashpunk.graphics.Graphiclist;
     import net.flashpunk.graphics.Image;
+    import net.flashpunk.graphics.Spritemap;
     import net.flashpunk.graphics.Text;
     import net.flashpunk.utils.Input;
     import net.flashpunk.utils.Key;
@@ -39,7 +40,7 @@ package uk.co.zutty.ld22.entities
         public static const HEAL_COOLDOWN:int = 20;
         public static const FLASH_TICKS:int = 3;
         
-        [Embed(source = 'assets/guy.png')]
+        [Embed(source = 'assets/guy_walk.png')]
         private const GUY_IMAGE:Class;
         
         [Embed(source = 'assets/fags.mp3')]
@@ -58,7 +59,7 @@ package uk.co.zutty.ld22.entities
         private const HIT_SOUND:Class;
 
         private var _gfx:Graphiclist;
-        private var _img:Image;
+        private var _img:Spritemap;
         private var _jumped:Boolean;
         private var _dead:Boolean;
         private var _healTick:int;
@@ -81,7 +82,12 @@ package uk.co.zutty.ld22.entities
         public function Player() {
             super(0, 0);
             _gfx = new Graphiclist();
-            _img = new Image(GUY_IMAGE);
+            _img = new Spritemap(GUY_IMAGE, 16, 32);
+            _img.add("stand_right", [0], 20, true);
+            _img.add("stand_left", [9], 20, true);
+            _img.add("walk_right", [1, 2, 3, 4, 5, 6, 7, 8], 20, true);
+            _img.add("walk_left", [10, 11, 12, 13, 14, 15, 16, 17], 20, true);
+            _img.play("stand_right");
             _img.centerOrigin();
             _gfx.add(_img);
             graphic = _gfx;
@@ -120,6 +126,7 @@ package uk.co.zutty.ld22.entities
             Input.define("fire", Key.X);
             Input.define("heal", Key.C);
             
+            message = "Arrow keys to move";
             die();
         }
         
@@ -248,10 +255,13 @@ package uk.co.zutty.ld22.entities
             if(Input.check("left") && x > 8) {
                 velocity.x = -MOVE_SPEED;
                 _lastDirection = false;
-            }
-            if(Input.check("right") && x < (FP.world as GameWorld).level.width - 8) {
+                _img.play("walk_left");
+            } else if(Input.check("right") && x < (FP.world as GameWorld).level.width - 8) {
                 velocity.x = MOVE_SPEED;
                 _lastDirection = true;
+                _img.play("walk_right");
+            } else {
+                _img.play(_lastDirection ? "stand_right" : "stand_left");
             }
             
             // Count down the heal timer tick

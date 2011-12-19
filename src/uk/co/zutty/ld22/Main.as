@@ -56,7 +56,7 @@ package uk.co.zutty.ld22
             if(level > NUM_LEVELS) {
                 FP.world = new WinScreen();
             } else {
-                FP.world = new GameWorld();
+                FP.world = new GameWorld(level);
             }
         }
     }

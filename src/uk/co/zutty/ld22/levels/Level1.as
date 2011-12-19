@@ -11,7 +11,7 @@ package uk.co.zutty.ld22.levels
         private const SAD_TILES_IMAGE:Class;
 
         public function Level1() {
-            super(LEVEL1_OEL, {sky: HAPPY_TILES_IMAGE, ground:HAPPY_TILES_IMAGE, sad_sky: SAD_TILES_IMAGE, sad_ground:SAD_TILES_IMAGE}, 16, 16);
+            super(LEVEL1_OEL, {sky: HAPPY_TILES_IMAGE, ground:HAPPY_TILES_IMAGE, overlay:HAPPY_TILES_IMAGE, sad_sky: SAD_TILES_IMAGE, sad_ground:SAD_TILES_IMAGE, sad_overlay:SAD_TILES_IMAGE}, 16, 16);
         }
     }
 }
