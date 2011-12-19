@@ -79,6 +79,19 @@ package uk.co.zutty.ld22.entities
         private var _message:Text;
         private var _messageTick:int;
         
+        // Tutorial
+        private var moveExplained:Boolean;
+        private var fireExplained:Boolean;
+        private var healExplained:Boolean;
+        
+        private var moveExplnTick:int;
+        private var fireExplnTick:int;
+        private var healExplnTick:int;
+        
+        private const MOVE_EXPLN_TIME:int = 50;
+        private const FIRE_EXPLN_TIME:int = 190;
+        private const HEAL_EXPLN_TIME:int = 350;
+        
         public function Player() {
             super(0, 0);
             _gfx = new Graphiclist();
@@ -126,7 +139,6 @@ package uk.co.zutty.ld22.entities
             Input.define("fire", Key.X);
             Input.define("heal", Key.C);
             
-            message = "Arrow keys to move";
             die();
         }
         
@@ -174,7 +186,7 @@ package uk.co.zutty.ld22.entities
             _message.text = msg;
             _message.centerOrigin();
             _message.visible = true;
-            _messageTick = 150;
+            _messageTick = 120;
         }
         
         override public function doFire(char:String):void {
@@ -189,6 +201,21 @@ package uk.co.zutty.ld22.entities
         override public function update():void {
             super.update();
             
+            // Tutorials
+            if(!moveExplained && ++moveExplnTick >= MOVE_EXPLN_TIME) {
+                message = "Arrow keys to move";
+                moveExplained = true;
+            }
+            if(!fireExplained && ++fireExplnTick >= FIRE_EXPLN_TIME) {
+                message = "Press X to ponder the\nbleakness of existence";
+                fireExplained = true;
+            }
+            if(!healExplained && ++healExplnTick >= HEAL_EXPLN_TIME) {
+                message = "Press C to enjoy\nmaterial pleasure";
+                healExplained = true;
+            }
+            
+            // General message stuff
             _message.alpha = 1.0;
             if(_message.visible && _messageTick <= 0) {
                 _message.visible = false;
@@ -228,12 +255,14 @@ package uk.co.zutty.ld22.entities
             
             // Fire/speak
             if(Input.check("fire") && canSpeak) {
+                fireExplained = true;
                 _dreadSfx.play();
                 speak(randomQuote, _lastDirection);
             }
             
             // Self heal
             if(Input.check("heal") && _healTick <= 0 && _healCharges > 0) {
+                healExplained = true;
                 _damage -= HEAL_ONE_SHOT;
                 _healCharges--;
                 _dragSfx.play();
@@ -245,6 +274,7 @@ package uk.co.zutty.ld22.entities
 
             // Jump/move
             if(Input.check("jump") && !_jumped) {
+                moveExplained = true;
                 _jumpSfx.play();
                 velocity.y = -JUMP_IMPULSE;
                 _jumped = true;
@@ -253,10 +283,12 @@ package uk.co.zutty.ld22.entities
             // Move left/right
             velocity.x = 0;
             if(Input.check("left") && x > 8) {
+                moveExplained = true;
                 velocity.x = -MOVE_SPEED;
                 _lastDirection = false;
                 _img.play("walk_left");
             } else if(Input.check("right") && x < (FP.world as GameWorld).level.width - 8) {
+                moveExplained = true;
                 velocity.x = MOVE_SPEED;
                 _lastDirection = true;
                 _img.play("walk_right");

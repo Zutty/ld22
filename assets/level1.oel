@@ -1824,7 +1824,6 @@
     <tile tx="48" ty="16" x="304" y="240"/>
     <tile tx="48" ty="16" x="176" y="240"/>
     <tile tx="48" ty="16" x="64" y="240"/>
-    <tile tx="64" ty="16" x="48" y="240"/>
     <tile tx="64" ty="16" x="288" y="240"/>
     <tile tx="64" ty="16" x="608" y="208"/>
     <tile tx="64" ty="16" x="816" y="128"/>
@@ -1853,6 +1852,7 @@
     <tile tx="64" ty="48" x="1040" y="272"/>
     <tile tx="64" ty="48" x="896" y="144"/>
     <tile tx="64" ty="48" x="864" y="160"/>
+    <tile tx="64" ty="16" x="128" y="224"/>
   </overlay>
   <sad_sky set="sad">
     <tile tx="0" ty="0" x="16" y="16"/>
@@ -3461,7 +3461,6 @@
     <tile tx="48" ty="16" x="1136" y="224"/>
     <tile tx="48" ty="16" x="896" y="80"/>
     <tile tx="48" ty="16" x="1072" y="144"/>
-    <tile tx="64" ty="16" x="96" y="208"/>
     <tile tx="64" ty="16" x="416" y="176"/>
     <tile tx="64" ty="16" x="656" y="192"/>
     <tile tx="64" ty="16" x="928" y="48"/>
@@ -3485,13 +3484,14 @@
     <tile tx="64" ty="64" x="336" y="256"/>
     <tile tx="64" ty="64" x="80" y="256"/>
     <tile tx="48" ty="64" x="144" y="256"/>
+    <tile tx="64" ty="16" x="128" y="208"/>
   </sad_overlay>
   <objects>
     <cigarette x="656" y="208"/>
     <manuscript x="976" y="144"/>
     <cigarette x="368" y="208"/>
-    <spawn x="32" y="224"/>
-    <bystander x="192" y="224"/>
+    <spawn x="96" y="208"/>
+    <bystander x="272" y="224"/>
     <bystander x="448" y="176"/>
     <bystander x="864" y="96"/>
     <bystander x="1152" y="48"/>

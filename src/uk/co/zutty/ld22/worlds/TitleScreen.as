@@ -35,14 +35,37 @@ package uk.co.zutty.ld22.worlds
             f.y = 50;
             add(f);
 
+            var g:Entity = new Entity();
+            var ins:Text = new Text("Overcome self doubt in the face of\n asinie banality. Use your ideology\nto dismiss uninformed bystanders, but be\n careful to avoid turmoil and, ultimately, an\n existential crisis.");
+            ins.centerOrigin();
+            ins.width = FP.width;
+            ins.size = 12;
+            ins.align = "center";
+            g.graphic = ins;
+            g.width = FP.width;
+            g.x = FP.halfWidth;
+            g.y = 150;
+            add(g);
+
             var e:Entity = new Entity();
             var txt:Text = new Text("Press X to start");
             txt.width = FP.width;
             txt.align = "center";
             e.graphic = txt;
-            e.y = 200;
+            e.y = 190;
             add(e);
-        }
+
+            var h:Entity = new Entity();
+            var tt:Text = new Text("Made by Zutty for #LD22\nwww.ludumdare.com");
+            tt.centerOrigin();
+            tt.size = 8;
+            tt.align = "right";
+            h.graphic = tt;
+            h.width = FP.width;
+            h.x = 210;
+            h.y = 238;
+            add(h);
+}
         
         override public function update():void {
             super.update();
