@@ -36,7 +36,7 @@ package uk.co.zutty.ld22.worlds
             add(f);
 
             var g:Entity = new Entity();
-            var ins:Text = new Text("Overcome self doubt in the face of\n asinie banality. Use your ideology\nto dismiss uninformed bystanders, but be\n careful to avoid turmoil and, ultimately, an\n existential crisis.");
+            var ins:Text = new Text("Overcome self doubt in the face of\n asinine banality. Use your ideology\nto dismiss uninformed bystanders, but be\n careful to avoid turmoil and, ultimately, an\n existential crisis.");
             ins.centerOrigin();
             ins.width = FP.width;
             ins.size = 12;
